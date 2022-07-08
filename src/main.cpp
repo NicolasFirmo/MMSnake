@@ -5,7 +5,7 @@ int main() {
 		return 1;
 	}
 
-	SDL_Window *window = SDL_CreateWindow("MMSnake", SDL_WINDOWPOS_UNDEFINED,
+	SDL_Window *window = SDL_CreateWindow("StickTheStick", SDL_WINDOWPOS_UNDEFINED,
 										  SDL_WINDOWPOS_UNDEFINED, 600, 480, SDL_WINDOW_OPENGL);
 	if (window == nullptr) {
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
@@ -23,7 +23,7 @@ int main() {
 		return 1;
 	}
 
-	std::cout << "MMSnake initialized!\n";
+	std::cout << "StickTheStick initialized!\n";
 
 	SDL_SetRenderDrawColor(renderer, 0x40, 0x80, 0x10, 0x00);
 	SDL_Event event;

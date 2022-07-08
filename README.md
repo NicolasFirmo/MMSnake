@@ -1,5 +1,5 @@
-# MMSnake
+# StickTheStick
 
 ## About
 
-Multiplayer multiplataform snake game
+Multiplayer multiplataform stick figure battle game
