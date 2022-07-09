@@ -9,6 +9,8 @@ list(REMOVE_ITEM ${ExecutableName}_sources pch.h)
 message(STATUS "${ExecutableName}_sources: ${${ExecutableName}_sources}")
 
 add_executable(${ExecutableName} ${${ExecutableName}_sources})
+target_compile_definitions(${ExecutableName} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,1,0>)
+
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(supportsIPO)

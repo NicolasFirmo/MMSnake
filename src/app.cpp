@@ -2,6 +2,7 @@
 
 #include "screen.h"
 
+#include "utility/log.hpp"
 #include "utility/timer.h"
 
 bool App::running = false;
@@ -36,7 +37,7 @@ App::ExitCode App::run() {
 
 	Timer timer;
 	while (running) {
-		fmt::print("Frame rate: {}fps\n", 1 / timer.getCount());
+		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getCount());
 		timer.startCounting();
 
 		Screen::clear();
