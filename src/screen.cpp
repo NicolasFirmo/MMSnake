@@ -4,15 +4,15 @@ SDL_DisplayMode Screen::displayMode{};
 SDL_Window *Screen::window = nullptr;
 SDL_Renderer *Screen::renderer = nullptr;
 
-bool Screen::init(const char *title, const Vec2<int>& size) {
+bool Screen::init(const char *title, const Vec2<int> &size) {
 	if (int error = SDL_GetCurrentDisplayMode(0, &displayMode); error) {
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not get display mode (%d): %s\n", error,
 					 SDL_GetError());
 		shutdown();
 		return false;
 	}
-	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-							  size.w, size.h, SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.w,
+							  size.h, SDL_WINDOW_OPENGL);
 	if (window == nullptr) {
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
 		shutdown();

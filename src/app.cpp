@@ -2,7 +2,6 @@
 
 #include "screen.h"
 
-#include "utility/float-to-uint8.h"
 #include "utility/timer.h"
 
 bool App::running = false;
