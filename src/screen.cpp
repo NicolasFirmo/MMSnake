@@ -44,7 +44,6 @@ bool Screen::setDrawColor(const SDL_Color &color) {
 	if (int error = SDL_SetRenderDrawColor(renderer, r, g, b, a); error) {
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not set clear color (%d): %s\n", error,
 					 SDL_GetError());
-	std::cerr << "erro";
 		shutdown();
 		return false;
 	}
