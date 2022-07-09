@@ -62,10 +62,13 @@ void App::onEvent(SDL_Event event) {
 	case SDL_MOUSEWHEEL: {
 		Screen::setDrawColor({.r = 0xE0, .g = 0x10, .b = 0x80, .a = 0xff});
 		Screen::setTitle("Nice!");
-
 	}
 	case SDL_KEYDOWN: {
-		running = event.key.type != SDLK_ESCAPE;
+		running = event.key.keysym.sym != SDLK_ESCAPE;
+		break;
+	}
+	case SDL_WINDOWEVENT: {
+		running = event.window.event != SDL_WINDOWEVENT_CLOSE;
 		break;
 	}
 	}
