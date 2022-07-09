@@ -18,6 +18,7 @@ endif(supportsIPO)
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
 target_link_libraries(${ExecutableName}
+	SDL2main
 	SDL2-static)
 
 if(MSVC)
