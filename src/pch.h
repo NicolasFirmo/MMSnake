@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 
+#include <fmt/format.h>
+
 #include <fstream>
 #include <iostream>
 #include <sstream>

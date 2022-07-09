@@ -19,7 +19,8 @@ target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
 target_link_libraries(${ExecutableName}
 	SDL2main
-	SDL2-static)
+	SDL2-static
+	fmt::fmt)
 
 if(MSVC)
 	target_compile_options(${ExecutableName} PRIVATE

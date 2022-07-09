@@ -37,7 +37,7 @@ App::ExitCode App::run() {
 
 	Timer timer;
 	while (running) {
-		const auto deltaT = timer.getCount();
+		fmt::print("Frame rate: {}fps\n", 1 / timer.getCount());
 		timer.startCounting();
 
 		Screen::clear();
