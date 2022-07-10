@@ -71,6 +71,16 @@ bool Screen::drawLine(const Vec2<int> &begin, const Vec2<int> &end) {
 	return true;
 }
 
+bool Screen::drawRect(const SDL_Rect &rect) {
+	if (int error = SDL_RenderDrawRect(renderer, &rect); error) {
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not draw rect (%d): %s\n", error,
+					 SDL_GetError());
+		shutdown();
+		return false;
+	}
+	return true;
+}
+
 void Screen::setTitle(const char *title) {
 	SDL_SetWindowTitle(window, title);
 }

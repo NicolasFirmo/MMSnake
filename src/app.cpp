@@ -1,5 +1,6 @@
 #include "app.h"
 
+#include "game.h"
 #include "screen.h"
 
 #include "utility/log.hpp"
@@ -35,15 +36,22 @@ App::ExitCode App::run() {
 	}};
 	eventLoop.detach();
 
+	Game::init();
+
 	Timer timer;
 	while (running) {
 		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getCount());
 		timer.startCounting();
 
+		Screen::setDrawColor(backgroundColor);
 		Screen::clear();
+
+		Game::render();
 
 		Screen::show();
 	}
+
+	Game::shutdown();
 
 	return ExitCode::success;
 }
