@@ -17,6 +17,7 @@ public:
 	static bool clear();
 
 	static bool drawLine(const Vec2<int> &begin, const Vec2<int> &end);
+	static bool drawRect(const SDL_Rect &rect);
 
 	static void show();
 
