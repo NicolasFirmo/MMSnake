@@ -10,4 +10,14 @@ struct Vec2 {
 			T w, h;
 		};
 	};
+
+	Vec2 &operator+=(const Vec2 &other) {
+		x = other.x;
+		y = other.y;
+		return *this;
+	}
+
+	Vec2 operator+(const Vec2 &other) { return {.x = x + other.x, .y = y + other.y}; }
+
+	Vec2 operator*(T value) { return {.x = x * value, .y = y * value}; }
 };
