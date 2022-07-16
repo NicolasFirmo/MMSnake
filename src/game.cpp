@@ -3,6 +3,7 @@
 #include "screen.h"
 
 #include "utility/timer.h"
+#include "utility/log.hpp"
 
 bool Game::running = false;
 static SDL_Color testRectColor = {0, 0, 0, 0xff};
@@ -15,12 +16,14 @@ void Game::init() {
 }
 
 void Game::run() {
-	// Timer timer;
+	Timer timer;
 	while (running) {
-		// const auto deltaT = timer.getCount();
-		// timer.startCounting();
+		timer.startCounting();
 
+		SDL_PumpEvents(); // make sure we have the latest mouse state.
 		SDL_GetMouseState(&testRect.x, &testRect.y);
+
+		timer.syncThread(gameLoopPeriod);
 	}
 }
 

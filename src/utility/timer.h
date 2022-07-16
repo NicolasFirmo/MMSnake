@@ -2,9 +2,14 @@
 
 class Timer {
 public:
+	using clock = std::chrono::high_resolution_clock;
+
 	void startCounting();
-	[[nodiscard]] double getCount() const;
+	[[nodiscard]] int64_t getMicrosecondsElapsed() const;
+	[[nodiscard]] double getSecondsElapsed() const;
+
+	void syncThread(std::chrono::microseconds period) const;
 
 private:
-	uint64_t startTime_ = SDL_GetPerformanceCounter();
+	clock::time_point startTime_ = clock::now();
 };

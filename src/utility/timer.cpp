@@ -1,9 +1,18 @@
 #include "timer.h"
 
 void Timer::startCounting() {
-	startTime_ = SDL_GetPerformanceCounter();
+	startTime_ = clock::now();
 }
-double Timer::getCount() const {
-	return static_cast<double>((SDL_GetPerformanceCounter() - startTime_) /
-								 static_cast<double>(SDL_GetPerformanceFrequency()));
+int64_t Timer::getMicrosecondsElapsed() const {
+	return std::chrono::duration_cast<std::chrono::microseconds>(clock::now() - startTime_).count();
+}
+double Timer::getSecondsElapsed() const {
+	static constexpr auto microsecondsTosecondsRatio = 1'000'000.0;
+	return getMicrosecondsElapsed() / microsecondsTosecondsRatio;
+}
+
+void Timer::syncThread(std::chrono::microseconds period) const {
+	const auto elapsed = clock::now() - startTime_;
+	const auto remaining = period - elapsed;
+	std::this_thread::sleep_for(std::max(remaining.zero(), remaining));
 }

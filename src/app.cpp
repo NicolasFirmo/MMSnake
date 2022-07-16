@@ -40,7 +40,7 @@ App::ExitCode App::run() {
 
 	Timer timer;
 	while (running) {
-		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getCount());
+		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getSecondsElapsed());
 		timer.startCounting();
 
 		Screen::setDrawColor(backgroundColor);
