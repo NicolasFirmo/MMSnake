@@ -1,14 +1,14 @@
-string(TOLOWER ${ProjectName} ExecutableName)
+string(TOLOWER ${PROJECT_NAME} ExecutableName)
 
-file(GLOB_RECURSE "${ExecutableName}_sources" RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
+file(GLOB_RECURSE "${ExecutableName}_SOURCES" RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
 	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/*.h
 	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
 )
-list(REMOVE_ITEM ${ExecutableName}_sources pch.h)
-message(STATUS "${ExecutableName}_sources: ${${ExecutableName}_sources}")
+list(REMOVE_ITEM ${ExecutableName}_SOURCES pch.h)
+message(STATUS "${ExecutableName}_SOURCES: ${${ExecutableName}_SOURCES}")
 
-add_executable(${ExecutableName} ${${ExecutableName}_sources})
+add_executable(${ExecutableName} ${${ExecutableName}_SOURCES})
 target_compile_definitions(${ExecutableName} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,1,0>)
 
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
