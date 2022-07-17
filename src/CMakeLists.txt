@@ -20,9 +20,9 @@ endif(supportsIPO)
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
 target_link_libraries(${ExecutableName}
-	SDL2main
-	SDL2-static
-	fmt::fmt)
+	fmt::fmt-header-only
+	glfw
+	glad)
 
 if(MSVC)
 	target_compile_options(${ExecutableName} PRIVATE

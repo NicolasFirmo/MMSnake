@@ -9,9 +9,7 @@ public:
 	static void shutdown();
 
 private:
-	static void onEvent(SDL_Event event);
-
-	static constexpr Uint32 sdlInitFlags = SDL_INIT_VIDEO;
+	// static void onEvent(SDL_Event event);
 
 	static bool running;
 };

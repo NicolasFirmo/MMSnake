@@ -1,7 +1,8 @@
 #pragma once
-#include <SDL.h>
-
 #include <fmt/format.h>
+
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
 
 #include <fstream>
 #include <iostream>

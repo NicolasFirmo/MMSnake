@@ -22,8 +22,14 @@ endif(NOT DEFINED BUILD_SHARED_LIBS)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-add_subdirectory(vendor/SDL)
+add_subdirectory(vendor/Glad2)
 
-add_subdirectory(vendor/fmt)
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(vendor/GLFW)
+
+add_subdirectory(vendor/fmt EXCLUDE_FROM_ALL)
 
 add_subdirectory(src)

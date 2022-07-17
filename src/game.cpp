@@ -2,12 +2,12 @@
 
 #include "screen.h"
 
-#include "utility/timer.h"
 #include "utility/log.hpp"
+#include "utility/rect.hpp"
+#include "utility/timer.h"
 
 bool Game::running = false;
-static SDL_Color testRectColor = {0, 0, 0, 0xff};
-static SDL_Rect testRect{.w = 12, .h = 12};
+static Rect<GLfloat> testRect{.size = {.w = 12, .h = 12}};
 
 void Game::init() {
 	running = true;
@@ -20,8 +20,8 @@ void Game::run() {
 	while (running) {
 		timer.startCounting();
 
-		SDL_PumpEvents(); // make sure we have the latest mouse state.
-		SDL_GetMouseState(&testRect.x, &testRect.y);
+		// TODO(Nicolas): pool mouse state with GLFW
+		// SDL_GetMouseState(&testRect.x, &testRect.y);
 
 		timer.syncThread(gameLoopPeriod);
 	}
@@ -32,6 +32,6 @@ void Game::shutdown() {
 }
 
 void Game::render() {
-	Screen::setDrawColor({0, 0, 0, 0xff});
+	Screen::setDrawColor(0.0, 0.0, 0.0, 1.0);
 	Screen::drawRect(testRect);
 }
