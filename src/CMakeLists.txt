@@ -27,8 +27,6 @@ target_link_libraries(${ExecutableName}
 if(MSVC)
 	target_compile_options(${ExecutableName} PRIVATE
 		"$<$<COMPILE_LANGUAGE:CXX>:/Wall;/MP;/Oi;/GL;$<$<CONFIG:RELEASE>:/Ot;/GR->>")
-	set_target_properties(${ExecutableName} PROPERTIES MSVC_RUNTIME_LIBRARY
-		"MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 	# Disable exceptions: https://cmake.org/pipermail/cmake/2010-December/041641.html
 	if(CMAKE_CXX_FLAGS MATCHES "/EHsc ")
