@@ -16,6 +16,6 @@ struct Size2 {
 };
 
 template <typename T>
-constexpr Size2<T> operator*(const T &value, const Size2<T> &size) {
+[[nodiscard]] constexpr Size2<T> operator*(const T &value, const Size2<T> &size) {
 	return {.w = size.w * value, .h = size.w * value};
 }

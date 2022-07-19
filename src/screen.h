@@ -11,9 +11,9 @@ public:
 
 	static void pollEvents();
 
-	static auto getWidth() { return size.w; }
-	static auto getHeight() { return size.h; }
-	// static auto refreshRate() { return displayMode.refresh_rate; }
+	[[nodiscard]] static auto getWidth() { return size.w; }
+	[[nodiscard]] static auto getHeight() { return size.h; }
+	// TODO(Nicolas): get refresh rate
 
 	static void setTitle(const char *title);
 
@@ -26,6 +26,5 @@ public:
 
 private:
 	static Size2<GLsizei> size;
-
 	static GLFWwindow *window;
 };
