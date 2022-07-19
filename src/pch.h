@@ -20,7 +20,7 @@
 
 #include <algorithm>
 #include <chrono>
-// #include <execution> // libtbb
+#include <execution>
 #include <numeric>
 #include <thread>
 #include <utility>
