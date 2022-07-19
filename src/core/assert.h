@@ -6,9 +6,9 @@
 #include "core/debug_break.h"
 
 #ifdef PLATFORM_WINDOWS
-static constexpr auto srcDir = "src\\"sv;
+static constexpr auto srcDirName = "src\\";
 #elif PLATFORM_UNIX
-static constexpr auto srcDir = "src/"sv;
+static constexpr auto srcDirName = "src/";
 #else
 #error Only Windows and Unix Supported for now!
 #endif
@@ -17,7 +17,7 @@ static constexpr auto srcDir = "src/"sv;
 #define debugAssert(x, message)                                                                    \
 	if (!(x)) {                                                                                    \
 		static constexpr auto location = std::source_location::current();                          \
-		static constexpr auto fileName = getRelativePath(location.file_name(), srcDir);            \
+		static constexpr auto fileName = getRelativePath(location.file_name(), srcDirName);        \
 		static constexpr auto functionName = location.function_name();                             \
 		static constexpr auto line = location.line();                                              \
 		debugLog("assertion falied at {}:{}: {}\n\t on {}: {}\n", fileName, line, message,         \
