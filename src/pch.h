@@ -27,6 +27,7 @@
 
 #include <cstdint>
 #include <limits>
+#include <source_location>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <type_traits>

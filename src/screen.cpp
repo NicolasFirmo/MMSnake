@@ -2,10 +2,12 @@
 
 #include "utility/log.hpp"
 
+#include "core/assert.h"
+
 Size2<GLsizei> Screen::size{};
 GLFWwindow *Screen::window = nullptr;
 
-bool Screen::init(const char *title, const Size2<GLsizei> &size) {
+void Screen::init(const char *title, const Size2<GLsizei> &size) {
 	Screen::size = size;
 
 	glfwSetErrorCallback([](int error, const char *description) {
@@ -21,24 +23,17 @@ bool Screen::init(const char *title, const Size2<GLsizei> &size) {
 
 	window = glfwCreateWindow(size.w, size.h, title, NULL, NULL);
 	glfwMakeContextCurrent(window);
-	if (!window) {
-		fmt::print(stderr, "Failed to create GLFW window");
-		shutdown();
-		return false;
-	}
+	debugAssert(window, "Failed to create GLFW window");
 
 	glfwSwapInterval(1); // vsync
 
-	if (!gladLoadGL((GLADloadfunc)glfwGetProcAddress)) {
-		fmt::print(stderr, "Failed to initialize OpenGL context");
-		shutdown();
-		return false;
-	}
+	debugAssert(gladLoadGL((GLADloadfunc)glfwGetProcAddress),
+				"Failed to initialize OpenGL context");
 
 	debugLog("OpenGL info:\n");
-	debugLog("	Vendor: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VENDOR)));
-	debugLog("	Renderer: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
-	debugLog("	Version: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
+	debugLog("\tVendor: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VENDOR)));
+	debugLog("\tRenderer: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
+	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
 
 	glViewport(0, 0, size.w, size.h);
 
@@ -126,8 +121,6 @@ bool Screen::init(const char *title, const Size2<GLsizei> &size) {
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, (void *)0);
-
-	return true;
 }
 void Screen::shutdown() {
 	glfwTerminate();

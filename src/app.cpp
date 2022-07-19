@@ -9,10 +9,7 @@
 bool App::running = false;
 
 App::ExitCode App::init() {
-	if (!Screen::init("StickTheStick", {.w = 600, .h = 480})) {
-		shutdown();
-		return ExitCode::applicationError;
-	}
+	Screen::init("StickTheStick", {.w = 600, .h = 480});
 
 	return ExitCode::success;
 }

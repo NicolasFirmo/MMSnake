@@ -11,6 +11,13 @@ message(STATUS "${ExecutableName}_SOURCES: ${${ExecutableName}_SOURCES}")
 add_executable(${ExecutableName} ${${ExecutableName}_SOURCES})
 target_compile_definitions(${ExecutableName} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,1,0>)
 
+if(WIN32)
+	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_WINDOWS)
+endif(WIN32)
+if(UNIX)
+	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_UNIX)
+endif(UNIX)
+
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(supportsIPO)

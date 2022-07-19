@@ -6,7 +6,7 @@
 
 class Screen {
 public:
-	static bool init(const char *title, const Size2<GLsizei> &size = {.w = 800, .h = 600});
+	static void init(const char *title, const Size2<GLsizei> &size = {.w = 800, .h = 600});
 	static void shutdown();
 
 	static void pollEvents();
