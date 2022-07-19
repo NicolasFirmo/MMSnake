@@ -31,3 +31,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <type_traits>
+
+using namespace std::string_literals;
+using namespace std::string_view_literals;

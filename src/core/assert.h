@@ -6,9 +6,9 @@
 #include "core/debug_break.h"
 
 #ifdef PLATFORM_WINDOWS
-static constexpr std::string_view srcDir = "src\\";
+static constexpr auto srcDir = "src\\"sv;
 #elif PLATFORM_UNIX
-static constexpr std::string_view srcDir = "src/";
+static constexpr auto srcDir = "src/"sv;
 #else
 #error Only Windows and Unix Supported for now!
 #endif
