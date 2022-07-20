@@ -8,7 +8,7 @@ int64_t Timer::getMicrosecondsElapsed() const {
 }
 double Timer::getSecondsElapsed() const {
 	static constexpr auto microsecondsTosecondsRatio = 1'000'000.0;
-	return getMicrosecondsElapsed() / microsecondsTosecondsRatio;
+	return double(getMicrosecondsElapsed()) / microsecondsTosecondsRatio;
 }
 
 void Timer::syncThread(std::chrono::microseconds period) const {
