@@ -1,7 +1,8 @@
 #include "app.h"
 
 #include "game.h"
-#include "screen.h"
+#include "renderer.h"
+#include "window.h"
 
 #include "utility/log.hpp"
 #include "utility/timer.h"
@@ -9,7 +10,9 @@
 bool App::running = false;
 
 App::ExitCode App::init() {
-	Screen::init("StickTheStick", {.w = 600, .h = 480});
+	Window::init("StickTheStick", {.w = 600, .h = 480});
+	Renderer::init();
+	Renderer::setViewport({.pos = {.x = 0, .y = 0}, .size = Window::getSize()});
 
 	return ExitCode::success;
 }
@@ -24,18 +27,20 @@ App::ExitCode App::run() {
 		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getSecondsElapsed());
 		timer.startCounting();
 
-		Screen::pollEvents();
+		Window::pollEvents();
 
-		Screen::setDrawColor(0x40 / 255.0F, 0x80 / 255.0F, 0x10 / 255.0F, 0xff / 255.0F);
-		Screen::clear();
+		Renderer::setDrawColor(0x40 / 255.0F, 0x80 / 255.0F, 0x10 / 255.0F, 0xff / 255.0F);
+		Renderer::clear();
 
 		Game::render();
 
-		Screen::show();
+		Renderer::renderFrame();
+		Window::showFrame();
 	}
 
 	Game::shutdown();
 
+	shutdown();
 	return ExitCode::success;
 }
 
@@ -69,5 +74,5 @@ App::ExitCode App::run() {
 
 void App::shutdown() {
 	running = false;
-	Screen::shutdown();
+	Window::shutdown();
 }

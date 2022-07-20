@@ -1,7 +1,5 @@
 #include "game.h"
 
-#include "screen.h"
-
 #include "utility/log.hpp"
 #include "utility/rect.hpp"
 #include "utility/timer.h"
@@ -32,6 +30,4 @@ void Game::shutdown() {
 }
 
 void Game::render() {
-	Screen::setDrawColor(0.0, 0.0, 0.0, 1.0);
-	Screen::drawRect(testRect);
 }
