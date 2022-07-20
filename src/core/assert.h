@@ -20,8 +20,8 @@ static constexpr auto srcDirName = "src/";
 		static constexpr auto fileName = getRelativePath(location.file_name(), srcDirName);        \
 		static constexpr auto functionName = location.function_name();                             \
 		static constexpr auto line = location.line();                                              \
-		debugLog("assertion falied at {}:{}: {}\n\t on {}: {}\n", fileName, line, message,         \
-				 functionName, #x);                                                                \
+		debugLog("assertion falied on line {} of {} in {}\n\t{}\n", line, functionName, fileName,  \
+				 message);                                                                         \
 		debugBreak();                                                                              \
 	}
 #else
