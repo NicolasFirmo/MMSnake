@@ -2,7 +2,6 @@
 
 #include "utility/rect.hpp"
 #include "utility/size.hpp"
-#include "utility/vec.hpp"
 
 class Screen {
 public:

@@ -1,9 +1,9 @@
 #pragma once
 #include "utility/size.hpp"
-#include "utility/vec.hpp"
+#include "utility/point.hpp"
 
-template <typename T>
+template <typename PointT, typename SizeT = PointT>
 struct Rect {
-	Vec2<T> pos{};
-	Size2<T> size{};
+	Point2<PointT> pos{};
+	Size2<SizeT> size{};
 };
