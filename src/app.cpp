@@ -12,7 +12,10 @@ bool App::running = false;
 App::ExitCode App::init() {
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
-	Renderer::setViewport({.pos = {.x = 0, .y = 0}, .size = Window::getSize()});
+	Renderer::setViewport({
+		.pos = {				.x = 0,				.y = 0},
+			 .size = {Window::getHeight(), Window::getHeight()}
+	   });
 
 	return ExitCode::success;
 }
@@ -29,7 +32,7 @@ App::ExitCode App::run() {
 
 		Window::pollEvents();
 
-		Renderer::setDrawColor(0x40 / 255.0F, 0x80 / 255.0F, 0x10 / 255.0F, 0xff / 255.0F);
+		Renderer::setDrawColor(1.0F, 1.0F, 1.0F, 1.0F);
 		Renderer::clear();
 
 		Game::render();
