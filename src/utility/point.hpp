@@ -13,6 +13,10 @@ struct Point2 {
 	[[nodiscard]] constexpr Point2 operator+(const Point2 &other) const {
 		return {.x = x + other.x, .y = y + other.y};
 	}
+
+	[[nodiscard]] constexpr Point2 operator-(const Point2 &other) const {
+		return {.x = x - other.x, .y = y - other.y};
+	}
 	[[nodiscard]] constexpr Point2 operator*(const T &value) const {
 		return {.x = x * value, .y = y * value};
 	}
