@@ -3,6 +3,8 @@
 #include "utility/point.hpp"
 #include "utility/rect.hpp"
 
+#include "shader.h"
+
 class Renderer {
 public:
 	static void init();
@@ -13,6 +15,9 @@ public:
 	static void clear();
 
 	static void renderFrame();
+
+	// TEST
+	static Shader shader;
 
 	// TODO(Nicolas): line drawing functions
 	//static void drawLine(const Point2<GLfloat> &point);

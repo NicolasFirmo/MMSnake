@@ -1,7 +1,7 @@
 #include "app.h"
 
 #include "game.h"
-#include "renderer.h"
+#include "renderer/renderer.h"
 #include "window.h"
 
 #include "utility/log.hpp"
