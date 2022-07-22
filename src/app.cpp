@@ -26,7 +26,7 @@ App::ExitCode App::run() {
 	Game::init();
 
 	Timer timer;
-	while (running) {
+	while (running && !Window::closing()) {
 		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getSecondsElapsed());
 		timer.startCounting();
 

@@ -8,6 +8,8 @@ public:
 					 bool vsyncEnabled = true);
 	static void shutdown();
 
+	static bool closing();
+
 	static void pollEvents();
 
 	static void showFrame();

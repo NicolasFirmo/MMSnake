@@ -41,6 +41,10 @@ void Window::shutdown() {
 	glfwTerminate();
 }
 
+bool Window::closing() {
+	return glfwWindowShouldClose(handle);
+}
+
 void Window::showFrame() {
 	glfwSwapBuffers(handle);
 }
