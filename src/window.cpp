@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include "utility/log.hpp"
+#include "utility/tracer.h"
 
 #include "core/assert.h"
 
@@ -10,6 +11,8 @@ Size2<GLsizei> Window::size{};
 int Window::vsync{};
 
 void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyncEnabled) {
+	auto t = Tracer::trace();
+
 	Window::size = size;
 
 	glfwSetErrorCallback([](int error, const char *description) {
@@ -38,26 +41,37 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
 }
 void Window::shutdown() {
+	auto t = Tracer::trace();
+
 	glfwTerminate();
 }
 
 bool Window::closing() {
+	auto t = Tracer::trace();
+	
 	return glfwWindowShouldClose(handle);
 }
 
 void Window::showFrame() {
+	auto t = Tracer::trace();
+	
 	glfwSwapBuffers(handle);
 }
 
 void Window::setVsync(bool enabled) {
+	auto t = Tracer::trace();
 	vsync = enabled ? 1 : 0;
 	glfwSwapInterval(vsync);
 }
 
 void Window::pollEvents() {
+	auto t = Tracer::trace();
+
 	glfwPollEvents();
 }
 
 void Window::setTitle(const char *title) {
+	auto t = Tracer::trace();
+
 	glfwSetWindowTitle(handle, title);
 }

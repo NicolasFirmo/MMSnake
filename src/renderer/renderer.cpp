@@ -3,9 +3,13 @@
 // TEST
 #include "utility/point.hpp"
 
+#include "utility/tracer.h"
+
 Shader Renderer::shader{};
 
 void Renderer::init() {
+	auto t = Tracer::trace();
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 

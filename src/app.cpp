@@ -6,6 +6,7 @@
 
 #include "utility/log.hpp"
 #include "utility/timer.h"
+#include "utility/tracer.h"
 
 bool App::running = false;
 
@@ -27,6 +28,8 @@ App::ExitCode App::run() {
 
 	Timer timer;
 	while (running && !Window::closing()) {
+		auto t = Tracer::trace();
+
 		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getSecondsElapsed());
 		timer.startCounting();
 

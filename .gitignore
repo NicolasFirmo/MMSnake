@@ -12,6 +12,7 @@ x64/
 CMakeCache.txt
 cmake_install.cmake
 cmake_uninstall.cmake
+profile.json
 *.pc
 *.vcxproj*
 *.proj*
