@@ -1,8 +1,10 @@
 #include "app.h"
 
 #include "game.h"
-#include "renderer/renderer.h"
 #include "window.h"
+
+#include "renderer/renderer.h"
+#include "renderer/shader.h"
 
 #include "utility/log.hpp"
 #include "utility/timer.h"
@@ -26,11 +28,16 @@ App::ExitCode App::run() {
 
 	Game::init();
 
+	Shader shader{"line"};
+	shader.bind();
+
 	Timer timer;
+	GLfloat timeWatch = 0.0F;
 	while (running && !Window::closing()) {
 		auto t = Tracer::trace();
-
-		debugLog("Frame rate: {:.1f}fps\n", 1 / timer.getSecondsElapsed());
+		const auto deltaT = timer.getSecondsElapsed();
+		debugLog("Frame rate: {:.1f}fps\n", 1 / deltaT);
+		timeWatch += deltaT;
 		timer.startCounting();
 
 		Window::pollEvents();
@@ -38,9 +45,14 @@ App::ExitCode App::run() {
 		Renderer::setDrawColor(1.0F, 1.0F, 1.0F, 1.0F);
 		Renderer::clear();
 
-		Game::render();
+		Renderer::beginBatch();
 
-		Renderer::renderFrame();
+		Renderer::drawLine({.x = 0, .y = 0},
+						   {.x = 0.4F * std::cos(timeWatch), .y = 0.4F * std::sin(timeWatch)},
+						   0.05F);
+
+		Renderer::endBatch();
+
 		Window::showFrame();
 	}
 

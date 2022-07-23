@@ -1,11 +1,15 @@
 #include "renderer.h"
 
-// TEST
 #include "utility/point.hpp"
-
 #include "utility/tracer.h"
 
-Shader Renderer::shader{};
+GLuint Renderer::vertexArrayId = 0;
+GLuint Renderer::vertexBufferId = 0;
+GLuint Renderer::indexBufferId = 0;
+
+LineQuad *Renderer::lineQuadBuffer = nullptr;
+LineQuad *Renderer::currentLineQuad = nullptr;
+GLsizei Renderer::indexCount = 0;
 
 void Renderer::init() {
 	auto t = Tracer::trace();
@@ -13,65 +17,50 @@ void Renderer::init() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	// TODO(Nicolas): move shader compilation and creation to somewhere else
-	shader = {"basic"};
+	glGenVertexArrays(1, &vertexArrayId);
+	glBindVertexArray(vertexArrayId);
 
-	// TODO(Nicolas): move buffer initialization to somewhere else
-	GLfloat thickness = 0.05F;
-	Point2<GLfloat> p0{.x = -0.75F, .y = -0.5F};
-	Point2<GLfloat> p1{.x = 0.75F, .y = 0.5F};
-
-	const auto rotate = []<typename T>(const Point2<T> &point, T angle) -> Point2<T> {
-		return {.x = point.x * std::cos(angle) - point.y * std::sin(angle),
-				.y = point.x * std::sin(angle) + point.y * std::cos(angle)};
-	};
-
-	auto thicknessVector = rotate({thickness, 0}, std::atan2(p1.x - p0.x, p1.y - p0.y));
-
-	Point2<GLfloat> p2{.x = p0.x - thicknessVector.y + thicknessVector.x,
-					   .y = p0.y - thicknessVector.y - thicknessVector.x};
-	Point2<GLfloat> p3{.x = p0.x - thicknessVector.y - thicknessVector.x,
-					   .y = p0.y + thicknessVector.y - thicknessVector.x};
-	Point2<GLfloat> p4{.x = p1.x + thicknessVector.y + thicknessVector.x,
-					   .y = p1.y - thicknessVector.y + thicknessVector.x};
-	Point2<GLfloat> p5{.x = p1.x + thicknessVector.y - thicknessVector.x,
-					   .y = p1.y + thicknessVector.y + thicknessVector.x};
-
-	GLfloat rectVertices[]{
-		p2.x, p2.y, -1.0F - thickness, -thickness, thickness,
-		p3.x, p3.y, -1.0F - thickness, thickness,  thickness,
-		p4.x, p4.y, 1.0F + thickness,  -thickness, thickness,
-		p5.x, p5.y, 1.0F + thickness,  thickness,  thickness,
-	};
-	GLuint rectIndicies[] = {
-		0,
-		1,
-		2,
-		3,
-	};
-
-	GLuint vaoId;
-	glGenVertexArrays(1, &vaoId);
-	glBindVertexArray(vaoId);
-
-	GLuint rectVerticesBufferId;
-	glGenBuffers(1, &rectVerticesBufferId);
-	glBindBuffer(GL_ARRAY_BUFFER, rectVerticesBufferId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(rectVertices), rectVertices, GL_STATIC_DRAW);
-
-	GLuint rectIndiciesBufferId;
-	glGenBuffers(1, &rectIndiciesBufferId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectIndiciesBufferId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(rectIndicies), rectIndicies, GL_STATIC_DRAW);
+	glGenBuffers(1, &vertexBufferId);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(LineQuad) * lineQuadsPerBatch, nullptr, GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (void *)0);
+	glVertexAttribPointer(0, sizeof(LineQuad::Vertex::worldPt) / sizeof(GLfloat), GL_FLOAT,
+						  GL_FALSE, sizeof(LineQuad::Vertex),
+						  (void *)offsetof(LineQuad::Vertex, worldPt));
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5,
-						  (void *)(sizeof(GLfloat) * 2));
+	glVertexAttribPointer(1, sizeof(LineQuad::Vertex::modelPt) / sizeof(GLfloat), GL_FLOAT,
+						  GL_FALSE, sizeof(LineQuad::Vertex),
+						  (void *)offsetof(LineQuad::Vertex, modelPt));
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5,
-						  (void *)(sizeof(GLfloat) * 4));
+	glVertexAttribPointer(2, sizeof(LineQuad::Vertex::thickness) / sizeof(GLfloat), GL_FLOAT,
+						  GL_FALSE, sizeof(LineQuad::Vertex),
+						  (void *)offsetof(LineQuad::Vertex, thickness));
+
+	std::array<GLuint, indicesPerBatch> rectIndicies;
+	for (GLuint i = 0, offset = 0; i < rectIndicies.size(); i += indicesPerLineQuad, offset += 4) {
+		rectIndicies[i + 0] = 0 + offset;
+		rectIndicies[i + 1] = 1 + offset;
+		rectIndicies[i + 2] = 2 + offset;
+
+		rectIndicies[i + 3] = 2 + offset;
+		rectIndicies[i + 4] = 3 + offset;
+		rectIndicies[i + 5] = 0 + offset;
+	}
+
+	glGenBuffers(1, &indexBufferId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesPerBatch, rectIndicies.data(), GL_STATIC_DRAW);
+
+	lineQuadBuffer = new LineQuad[lineQuadsPerBatch];
+}
+
+void Renderer::shutdown() {
+	glDeleteVertexArrays(1, &vertexArrayId);
+	glDeleteBuffers(1, &vertexBufferId);
+	glDeleteBuffers(1, &indexBufferId);
+
+	delete[] lineQuadBuffer;
 }
 
 void Renderer::setViewport(const Rect<GLint, GLsizei> &rect) {
@@ -88,6 +77,28 @@ void Renderer::clear() {
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::renderFrame() {
-	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, nullptr);
+void Renderer::beginBatch() {
+	currentLineQuad = lineQuadBuffer;
+	indexCount = 0;
+}
+
+void Renderer::endBatch() {
+	GLsizeiptr size = (GLubyte *)currentLineQuad - (GLubyte *)lineQuadBuffer;
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(LineQuad) * lineQuadsPerBatch, lineQuadBuffer);
+
+	glBindVertexArray(vertexArrayId);
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+}
+
+void Renderer::drawLine(const Point2<GLfloat> &pt0, const Point2<GLfloat> &pt1, GLfloat thickness) {
+	LineQuad lineQuad{pt0, pt1, thickness};
+	*currentLineQuad = lineQuad;
+	++currentLineQuad;
+	indexCount += indicesPerLineQuad;
+
+	if (indexCount >= indicesPerBatch) {
+		endBatch();
+		beginBatch();
+	}
 }
