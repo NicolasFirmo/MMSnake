@@ -24,8 +24,6 @@ Shader::Shader(const std::string &name) {
 	for (auto &&shaderId : shaderIds)
 		if (shaderId != 0)
 			glDeleteShader(shaderId);
-
-	glUseProgram(id_);
 }
 
 std::string Shader::loadShaderSource(std::string_view name, std::string_view extension) {
