@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <chrono>
 #include <execution>
+#include <numbers>
 #include <numeric>
 #include <thread>
 #include <utility>
