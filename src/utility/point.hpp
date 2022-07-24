@@ -26,3 +26,14 @@ template <typename T>
 constexpr Point2<T> operator*(const T &value, const Point2<T> &point) {
 	return {.x = point.x * value, .y = point.x * value};
 }
+
+template <typename T>
+constexpr T length2(const Point2<T> &pt0, const Point2<T> &pt1 = {0, 0}) {
+	const auto [x, y] = pt0 - pt1;
+	return x * x + y * y;
+}
+
+template <typename T>
+T length(const Point2<T> &pt0, const Point2<T> &pt1 = {0, 0}) {
+	return std::sqrt(length2(pt0, pt1));
+}
