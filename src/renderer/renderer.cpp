@@ -33,9 +33,9 @@ void Renderer::init() {
 						  GL_FALSE, sizeof(LineQuad::Vertex),
 						  (void *)offsetof(LineQuad::Vertex, modelPt));
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, sizeof(LineQuad::Vertex::thickness) / sizeof(GLfloat), GL_FLOAT,
+	glVertexAttribPointer(2, sizeof(LineQuad::Vertex::modelLength) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  (void *)offsetof(LineQuad::Vertex, thickness));
+						  (void *)offsetof(LineQuad::Vertex, modelLength));
 
 	std::array<GLuint, indicesPerBatch> rectIndicies;
 	for (GLuint i = 0, offset = 0; i < rectIndicies.size(); i += indicesPerLineQuad, offset += 4) {

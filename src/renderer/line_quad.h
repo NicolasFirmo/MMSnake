@@ -6,7 +6,7 @@ struct LineQuad {
 	struct Vertex {
 		Point2<GLfloat> worldPt;
 		Point2<GLfloat> modelPt;
-		GLfloat thickness;
+		GLfloat modelLength;
 	};
 
 	LineQuad() = default;
