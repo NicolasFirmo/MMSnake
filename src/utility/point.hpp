@@ -23,6 +23,6 @@ struct Point2 {
 };
 
 template <typename T>
-constexpr Point2<T> operator*(const T &value, const Point2<T> &vec) {
-	return {.x = vec.x * value, .y = vec.x * value};
+constexpr Point2<T> operator*(const T &value, const Point2<T> &point) {
+	return {.x = point.x * value, .y = point.x * value};
 }
