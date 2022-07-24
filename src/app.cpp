@@ -47,9 +47,13 @@ App::ExitCode App::run() {
 
 		Renderer::beginBatch();
 
-		Renderer::drawLine({.x = 0, .y = 0},
-						   {.x = 0.4F * std::cos(timeWatch), .y = 0.4F * std::sin(timeWatch)},
-						   0.05F);
+		static constexpr auto pi = std::numbers::pi_v<GLfloat>;
+
+		for (size_t i = 0; i < 50; ++i)
+			Renderer::drawLine({.x = 0, .y = 0},
+							   {.x = 0.4F * std::cos(timeWatch + i / 50.0F * 2 * pi),
+								.y = 0.4F * std::sin(timeWatch + i / 50.0F * 2 * pi)},
+							   0.020F - i / 50.0F * 0.015F);
 
 		Renderer::endBatch();
 
