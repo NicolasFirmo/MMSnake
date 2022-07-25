@@ -14,6 +14,13 @@ public:
 	Shader() = default;
 	Shader(const std::string &name);
 
+	~Shader();
+
+	Shader(const Shader &) = delete;
+	Shader(Shader &&other);
+	Shader &operator=(const Shader &) = delete;
+	Shader &operator=(Shader &&other);
+
 	void bind();
 
 private:

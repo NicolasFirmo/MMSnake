@@ -7,7 +7,7 @@ LineQuad::LineQuad(const Point2<GLfloat> &pt0, const Point2<GLfloat> &pt1,
 				.y = point.x * std::sin(angle) + point.y * std::cos(angle)};
 	};
 
-	auto thicknessVec = rotate({thickness, 0}, std::atan2(pt1.x - pt0.x, pt1.y - pt0.y));
+	const auto thicknessVec = rotate({thickness, 0}, std::atan2(pt1.x - pt0.x, pt1.y - pt0.y));
 
 	vertex0.worldPt = {.x = pt1.x + thicknessVec.y - thicknessVec.x,
 					   .y = pt1.y + thicknessVec.y + thicknessVec.x};

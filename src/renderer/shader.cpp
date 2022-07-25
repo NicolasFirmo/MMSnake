@@ -26,6 +26,22 @@ Shader::Shader(const std::string &name) {
 			glDeleteShader(shaderId);
 }
 
+Shader::~Shader() {
+	if (id_)
+		glDeleteProgram(id_);
+}
+
+Shader::Shader(Shader &&other) : id_(other.id_) {
+	other.id_ = 0;
+}
+
+Shader &Shader::operator=(Shader &&other) {
+	id_ = other.id_;
+	other.id_ = 0;
+
+	return *this;
+}
+
 std::string Shader::loadShaderSource(std::string_view name, std::string_view extension) {
 	using namespace std::string_literals;
 	std::string fileName =
