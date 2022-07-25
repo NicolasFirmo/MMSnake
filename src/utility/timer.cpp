@@ -12,7 +12,7 @@ double Timer::getSecondsElapsed() const {
 }
 
 void Timer::syncThread(std::chrono::microseconds period) const {
-	const auto elapsed = clock::now() - startTime_;
+	const auto elapsed	 = clock::now() - startTime_;
 	const auto remaining = period - elapsed;
 	std::this_thread::sleep_for(std::max(remaining.zero(), remaining));
 }

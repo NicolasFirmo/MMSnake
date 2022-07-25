@@ -26,9 +26,9 @@ private:
 	static GLuint vertexBufferId;
 	static GLuint indexBufferId;
 
-	static constexpr size_t lineQuadsPerBatch = 1000;
+	static constexpr size_t lineQuadsPerBatch  = 1000;
 	static constexpr size_t indicesPerLineQuad = 6;
-	static constexpr size_t indicesPerBatch = lineQuadsPerBatch * indicesPerLineQuad;
+	static constexpr size_t indicesPerBatch	   = lineQuadsPerBatch * indicesPerLineQuad;
 
 	static LineQuad *lineQuadBuffer;
 	static LineQuad *currentLineQuad;

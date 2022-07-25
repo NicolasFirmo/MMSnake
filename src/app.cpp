@@ -34,7 +34,7 @@ App::ExitCode App::run() {
 	Timer timer;
 	GLfloat timeWatch = 0.0F;
 	while (running && !Window::closing()) {
-		auto t = Tracer::trace();
+		auto t			  = Tracer::trace();
 		const auto deltaT = timer.getSecondsElapsed();
 		debugLog("Frame rate: {:.1f}fps\n", 1 / deltaT);
 		timeWatch += deltaT;

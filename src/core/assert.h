@@ -16,10 +16,10 @@ static constexpr auto srcDirName = "src/";
 #ifndef NDEBUG
 #define debugAssert(x, message)                                                                    \
 	if (!(x)) {                                                                                    \
-		static constexpr auto location = std::source_location::current();                          \
-		static constexpr auto fileName = getRelativePath(location.file_name(), srcDirName);        \
+		static constexpr auto location	   = std::source_location::current();                      \
+		static constexpr auto fileName	   = getRelativePath(location.file_name(), srcDirName);    \
 		static constexpr auto functionName = location.function_name();                             \
-		static constexpr auto line = location.line();                                              \
+		static constexpr auto line		   = location.line();                                      \
 		debugLog("assertion falied on line {} of {} in {}\n\t{}\n", line, functionName, fileName,  \
 				 message);                                                                         \
 		debugBreak();                                                                              \

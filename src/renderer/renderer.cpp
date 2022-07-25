@@ -3,13 +3,13 @@
 #include "utility/point.hpp"
 #include "utility/tracer.h"
 
-GLuint Renderer::vertexArrayId = 0;
+GLuint Renderer::vertexArrayId	= 0;
 GLuint Renderer::vertexBufferId = 0;
-GLuint Renderer::indexBufferId = 0;
+GLuint Renderer::indexBufferId	= 0;
 
-LineQuad *Renderer::lineQuadBuffer = nullptr;
+LineQuad *Renderer::lineQuadBuffer	= nullptr;
 LineQuad *Renderer::currentLineQuad = nullptr;
-GLsizei Renderer::indexCount = 0;
+GLsizei Renderer::indexCount		= 0;
 
 void Renderer::init() {
 	auto t = Tracer::trace();
@@ -79,7 +79,7 @@ void Renderer::clear() {
 
 void Renderer::beginBatch() {
 	currentLineQuad = lineQuadBuffer;
-	indexCount = 0;
+	indexCount		= 0;
 }
 
 void Renderer::endBatch() {

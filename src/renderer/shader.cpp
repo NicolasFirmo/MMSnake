@@ -36,7 +36,7 @@ Shader::Shader(Shader &&other) : id_(other.id_) {
 }
 
 Shader &Shader::operator=(Shader &&other) {
-	id_ = other.id_;
+	id_		  = other.id_;
 	other.id_ = 0;
 
 	return *this;

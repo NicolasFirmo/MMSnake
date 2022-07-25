@@ -60,7 +60,7 @@ void Window::showFrame() {
 
 void Window::setVsync(bool enabled) {
 	auto t = Tracer::trace();
-	vsync = enabled ? 1 : 0;
+	vsync  = enabled ? 1 : 0;
 	glfwSwapInterval(vsync);
 }
 
