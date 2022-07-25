@@ -1,5 +1,6 @@
 #pragma once
 #include <fmt/format.h>
+#include <fmt/color.h>
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
