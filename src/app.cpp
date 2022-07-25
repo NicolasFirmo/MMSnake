@@ -6,6 +6,9 @@
 #include "renderer/renderer.h"
 #include "renderer/shader.h"
 
+#include "events/mouse_button_event.h"
+#include "events/window_size_event.h"
+
 #include "utility/log.hpp"
 #include "utility/timer.h"
 #include "utility/tracer.h"
@@ -36,7 +39,7 @@ App::ExitCode App::run() {
 	while (running && !Window::closing()) {
 		auto t			  = Tracer::trace();
 		const auto deltaT = timer.getSecondsElapsed();
-		debugLog("Frame rate: {:.1f}fps\n", 1 / deltaT);
+		// debugLog("Frame rate: {:.1f}fps\n", 1 / deltaT);
 		timeWatch += deltaT;
 		timer.startCounting();
 
@@ -97,4 +100,35 @@ App::ExitCode App::run() {
 void App::shutdown() {
 	running = false;
 	Window::shutdown();
+}
+
+static constexpr auto eventLogColor = fmt::fg(fmt::color::light_green);
+void App::onEvent(Event &&evt) {
+	auto type = evt.getType();
+
+	switch (type) {
+	case Event::Type::windowSize: {
+		auto &[width, height] = static_cast<WindowSizeEvent &>(evt).size;
+		fmt::print(eventLogColor, "Window size: {}x{}\n", width, height);
+		break;
+	}
+	case Event::Type::mouseButton: {
+		auto &[button, action, mods] = static_cast<MouseButtonEvent &>(evt);
+		fmt::print(eventLogColor, "{} mouse button {}{}{}{}{}\n",
+				   button == MouseButton::left	 ? "Left" :
+				   button == MouseButton::right	 ? "Right" :
+				   button == MouseButton::middle ? "Middle" :
+												   "Unknown",
+				   action == MouseAction::pressed ? "pressed" : "released",
+				   mods != MouseMods::none ? " while holding " : "",
+				   mods & MouseMods::shift && mods & MouseMods::ctrlAlt ? "shift+" :
+				   mods & MouseMods::shift								? "shift" :
+																		  "",
+				   mods & MouseMods::ctrl && mods & MouseMods::alt ? "ctrl+" :
+				   mods & MouseMods::ctrl						   ? "ctrl" :
+																	 "",
+				   mods & MouseMods::alt ? "alt" : "");
+		break;
+	}
+	}
 }

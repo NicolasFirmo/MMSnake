@@ -1,5 +1,10 @@
 #include "window.h"
 
+#include "app.h"
+
+#include "events/mouse_button_event.h"
+#include "events/window_size_event.h"
+
 #include "utility/log.hpp"
 #include "utility/tracer.h"
 
@@ -39,7 +44,21 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	debugLog("\tVendor: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VENDOR)));
 	debugLog("\tRenderer: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
 	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
+
+	glfwSetMouseButtonCallback(handle, mouseButtonCallback);
+	glfwSetWindowSizeCallback(handle, windowSizeCallback);
 }
+
+void Window::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
+	App::onEvent(MouseButtonEvent{MouseButton(button), MouseAction(action), MouseMods(mods)});
+}
+
+void Window::windowSizeCallback(GLFWwindow *window, int width, int height) {
+	App::onEvent(WindowSizeEvent{
+		Size2{width, height}
+	});
+}
+
 void Window::shutdown() {
 	auto t = Tracer::trace();
 
@@ -48,13 +67,13 @@ void Window::shutdown() {
 
 bool Window::closing() {
 	auto t = Tracer::trace();
-	
+
 	return glfwWindowShouldClose(handle);
 }
 
 void Window::showFrame() {
 	auto t = Tracer::trace();
-	
+
 	glfwSwapBuffers(handle);
 }
 

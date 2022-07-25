@@ -24,6 +24,9 @@ public:
 	static void setTitle(const char *title);
 
 private:
+	static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
+	static void windowSizeCallback(GLFWwindow *window, int width, int height);
+
 	static GLFWwindow *handle;
 
 	static Size2<GLsizei> size;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "events/event.h"
+
 class App {
 public:
 	enum class ExitCode { success = 0, applicationError };
@@ -8,8 +10,8 @@ public:
 	static ExitCode run();
 	static void shutdown();
 
-private:
-	// static void onEvent(SDL_Event event);
+	static void onEvent(Event &&evt);
 
+private:
 	static bool running;
 };
