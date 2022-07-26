@@ -5,8 +5,6 @@
 int main(int /*argc*/, char * /*argv*/[]) {
 	Tracer::begin("profile.json");
 
-	auto t = Tracer::trace();
-
 	if (const auto exitCode = App::init(); exitCode != App::ExitCode::success)
 		return static_cast<int>(exitCode);
 

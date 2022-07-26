@@ -16,6 +16,7 @@
 bool App::running = false;
 
 App::ExitCode App::init() {
+	profileTrace();
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
 	Renderer::setViewport({
@@ -27,6 +28,7 @@ App::ExitCode App::init() {
 }
 
 App::ExitCode App::run() {
+	profileTrace();
 	running = true;
 
 	Game::init();
@@ -37,10 +39,8 @@ App::ExitCode App::run() {
 	Timer timer;
 	GLfloat timeWatch = 0.0F;
 	while (running && !Window::closing()) {
-		auto t			  = Tracer::trace();
-		const auto deltaT = timer.getSecondsElapsed();
-		// debugLog("Frame rate: {:.1f}fps\n", 1 / deltaT);
-		timeWatch += deltaT;
+		profileTrace("app run loop");
+		timeWatch += timer.getSecondsElapsed();
 		timer.startCounting();
 
 		Window::pollEvents();
@@ -98,6 +98,7 @@ App::ExitCode App::run() {
 // }
 
 void App::shutdown() {
+	profileTrace();
 	running = false;
 	Window::shutdown();
 }

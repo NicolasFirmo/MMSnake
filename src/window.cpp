@@ -16,8 +16,7 @@ Size2<GLsizei> Window::size{};
 int Window::vsync{};
 
 void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyncEnabled) {
-	auto t = Tracer::trace();
-
+	profileTrace();
 	Window::size = size;
 
 	glfwSetErrorCallback([](int error, const char *description) {
@@ -55,42 +54,34 @@ void Window::mouseButtonCallback(GLFWwindow *window, int button, int action, int
 
 void Window::windowSizeCallback(GLFWwindow *window, int width, int height) {
 	App::onEvent(WindowSizeEvent{
-		Size2{width, height}
-	});
+		{.w = width, .h = height}
+	 });
 }
 
 void Window::shutdown() {
-	auto t = Tracer::trace();
-
+	profileTrace();
 	glfwTerminate();
 }
 
 bool Window::closing() {
-	auto t = Tracer::trace();
-
 	return glfwWindowShouldClose(handle);
 }
 
 void Window::showFrame() {
-	auto t = Tracer::trace();
-
+	profileTrace();
 	glfwSwapBuffers(handle);
 }
 
 void Window::setVsync(bool enabled) {
-	auto t = Tracer::trace();
-	vsync  = enabled ? 1 : 0;
+	vsync = enabled ? 1 : 0;
 	glfwSwapInterval(vsync);
 }
 
 void Window::pollEvents() {
-	auto t = Tracer::trace();
-
+	profileTrace();
 	glfwPollEvents();
 }
 
 void Window::setTitle(const char *title) {
-	auto t = Tracer::trace();
-
 	glfwSetWindowTitle(handle, title);
 }

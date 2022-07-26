@@ -12,8 +12,6 @@ LineQuad *Renderer::currentLineQuad = nullptr;
 GLsizei Renderer::indexCount		= 0;
 
 void Renderer::init() {
-	auto t = Tracer::trace();
-
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
