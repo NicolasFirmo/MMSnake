@@ -4,6 +4,11 @@ template <typename T>
 struct Point2 {
 	T x{}, y{};
 
+	template <typename OtherT>
+	constexpr operator Point2<OtherT>() const {
+		return {.x = static_cast<OtherT>(x), .y = static_cast<OtherT>(y)};
+	}
+
 	constexpr Point2 &operator+=(const Point2 &other) {
 		x += other.x;
 		y += other.y;
