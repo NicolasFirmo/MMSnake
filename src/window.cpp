@@ -2,7 +2,7 @@
 
 #include "app.h"
 
-#include "events/mouse_button_event.h"
+#include "events/mouse_event.h"
 #include "events/window_size_event.h"
 
 #include "utility/log.hpp"
@@ -45,11 +45,18 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
 
 	glfwSetMouseButtonCallback(handle, mouseButtonCallback);
+	glfwSetCursorPosCallback(handle, mouseMoveCallback);
 	glfwSetWindowSizeCallback(handle, windowSizeCallback);
 }
 
 void Window::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
 	App::onEvent(MouseButtonEvent{MouseButton(button), MouseAction(action), MouseMods(mods)});
+}
+
+void Window::mouseMoveCallback(GLFWwindow *window, double xpos, double ypos) {
+	App::onEvent(MouseMoveEvent{
+		{.x = xpos, .y = ypos}
+	  });
 }
 
 void Window::windowSizeCallback(GLFWwindow *window, int width, int height) {

@@ -2,6 +2,8 @@
 
 #include "event.h"
 
+#include "utility/point.hpp"
+
 enum MouseButton {
 	left   = 0,
 	right  = 1,
@@ -35,4 +37,12 @@ struct MouseButtonEvent : public Event {
 	MouseButton button;
 	MouseAction action;
 	MouseMods mods;
+};
+
+struct MouseMoveEvent : public Event {
+	MouseMoveEvent(Point2<double> pos) : pos(pos) {}
+
+	[[nodiscard]] Type getType() const override { return Type::mouseMove; };
+
+	Point2<double> pos;
 };

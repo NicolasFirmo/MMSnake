@@ -6,7 +6,7 @@
 #include "renderer/renderer.h"
 #include "renderer/shader.h"
 
-#include "events/mouse_button_event.h"
+#include "events/mouse_event.h"
 #include "events/window_size_event.h"
 
 #include "utility/log.hpp"

@@ -25,6 +25,7 @@ public:
 
 private:
 	static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
+	static void mouseMoveCallback(GLFWwindow *window, double xpos, double ypos);
 	static void windowSizeCallback(GLFWwindow *window, int width, int height);
 
 	static GLFWwindow *handle;
