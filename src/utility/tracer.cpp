@@ -5,9 +5,7 @@
 std::ofstream Tracer::file;
 std::mutex Tracer::fileMutex;
 
-Tracer::Timer::Timer(std::source_location location)
-	: location_(location),
-	  startTime_(clock::now()) {}
+Tracer::Timer::Timer(const char *location) : location_(location), startTime_(clock::now()) {}
 
 Tracer::Timer::~Timer() {
 	auto elapsedTime =
@@ -22,7 +20,7 @@ Tracer::Timer::~Timer() {
 	file << ",{";
 	file << "\"cat\":\"function\",";
 	file << "\"dur\":" << elapsedTime << ',';
-	file << "\"name\":\"" << location_.function_name() << "\",";
+	file << "\"name\":\"" << location_ << "\",";
 	file << "\"ph\":\"X\",";
 	file << "\"pid\":0,";
 	file << "\"tid\":" << std::this_thread::get_id() << ",";
@@ -55,5 +53,9 @@ void Tracer::end() {
 }
 
 Tracer::Timer Tracer::trace(std::source_location location) {
+	return location.function_name();
+}
+
+Tracer::Timer Tracer::trace(const char *location) {
 	return location;
 }

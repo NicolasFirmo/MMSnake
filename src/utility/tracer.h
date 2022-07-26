@@ -6,16 +6,16 @@ public:
 	public:
 		using clock = std::chrono::high_resolution_clock;
 
-		Timer(std::source_location location);
+		Timer(const char *location);
 		~Timer();
 
-		Timer(const Timer &) = delete;
-		Timer(Timer &&) = delete;
+		Timer(const Timer &)			= delete;
+		Timer(Timer &&)					= delete;
 		Timer &operator=(const Timer &) = delete;
-		Timer &operator=(Timer &&) = delete;
+		Timer &operator=(Timer &&)		= delete;
 
 	private:
-		std::source_location location_;
+		const char *location_;
 		clock::time_point startTime_;
 	};
 
@@ -24,6 +24,7 @@ public:
 
 	[[nodiscard]] static Timer
 	trace(std::source_location location = std::source_location::current());
+	[[nodiscard]] static Timer trace(const char *location);
 
 private:
 	static std::ofstream file;
