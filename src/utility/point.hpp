@@ -5,8 +5,8 @@ struct Point2 {
 	T x{}, y{};
 
 	constexpr Point2 &operator+=(const Point2 &other) {
-		x = other.x;
-		y = other.y;
+		x += other.x;
+		y += other.y;
 		return *this;
 	}
 
