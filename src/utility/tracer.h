@@ -32,9 +32,7 @@ private:
 };
 
 #if 1
-#define profileTrace()		   auto t = Tracer::trace()
-#define profileTrace(location) auto t = Tracer::trace(location)
+#define profileTrace(location) auto traceTimer = Tracer::trace(location)
 #else
-#define profileTrace()
 #define profileTrace(location)
 #endif

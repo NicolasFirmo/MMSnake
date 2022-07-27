@@ -16,7 +16,6 @@ Tracer::Timer::~Timer() {
 
 	std::lock_guard lock{fileMutex};
 
-	file << std::setprecision(3) << std::fixed;
 	file << ",{";
 	file << "\"cat\":\"function\",";
 	file << "\"dur\":" << elapsedTime << ',';
