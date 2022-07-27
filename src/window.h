@@ -18,7 +18,7 @@ public:
 	[[nodiscard]] static auto getWidth() { return size.w; }
 	[[nodiscard]] static auto getHeight() { return size.h; }
 
-	[[nodiscard]] static void setVsync(bool enabled);
+	static void setVsync(bool enabled);
 	[[nodiscard]] static bool isVsyncOn() { return vsync != 0; }
 
 	static void setTitle(const char *title);
