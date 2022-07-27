@@ -45,8 +45,8 @@ void Game::onEvent(Event &evt) {
 	case Event::Type::mouseMove: {
 		const auto [screenX, screenY] = static_cast<MouseMoveEvent &>(evt).pos;
 
-		cursorPosition.x = screenX / Window::getWidth() * 2 - 1.0F;
-		cursorPosition.y = -screenY / Window::getHeight() * 2 + 1.0F;
+		cursorPosition.x = GLfloat(screenX / Window::getWidth() * 2) - 1.0F;
+		cursorPosition.y = GLfloat(-screenY / Window::getHeight() * 2) + 1.0F;
 		break;
 	}
 	default:
