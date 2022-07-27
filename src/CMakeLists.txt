@@ -15,16 +15,15 @@ target_compile_definitions(${ExecutableName} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,
 
 if(WIN32)
 	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_WINDOWS)
-endif(WIN32)
-if(UNIX)
+elseif(UNIX)
 	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_UNIX)
-endif(UNIX)
+endif()
 
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(supportsIPO)
 	set_target_properties(${ExecutableName} PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
-endif(supportsIPO)
+endif()
 
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
@@ -41,11 +40,14 @@ if(MSVC)
 	# Disable exceptions: https://cmake.org/pipermail/cmake/2010-December/041641.html
 	if(CMAKE_CXX_FLAGS MATCHES "/EHsc ")
 		string(REPLACE "/EHsc" "/EHs-c-" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	endif(CMAKE_CXX_FLAGS MATCHES "/EHsc ")
+	endif()
 
 	if(CMAKE_CXX_FLAGS MATCHES "/EHsc$")
 		string(REPLACE "/EHsc" "/EHs-c-" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	endif(CMAKE_CXX_FLAGS MATCHES "/EHsc$")
+	endif()
 
 	set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${ExecutableName})
-endif(MSVC)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "(Clang|GNU)")
+	target_compile_options(${ExecutableName} PRIVATE
+	"$<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra;-Wpedantic;-Wconversion;-fno-exceptions;-fno-rtti;$<$<CONFIG:RELEASE>:-O3;-ffast-math>>")
+endif()
