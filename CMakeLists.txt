@@ -32,4 +32,6 @@ add_subdirectory(vendor/GLFW)
 
 add_subdirectory(vendor/fmt EXCLUDE_FROM_ALL)
 
+add_subdirectory(vendor/imgui)
+
 add_subdirectory(src)

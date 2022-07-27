@@ -33,7 +33,9 @@ endif()
 target_link_libraries(${ExecutableName}
 	fmt::fmt-header-only
 	glfw
-	glad)
+	glad
+	imgui
+	)
 
 if(MSVC)
 	target_compile_options(${ExecutableName} PRIVATE

@@ -17,6 +17,7 @@ profile.json
 *.vcxproj*
 *.proj*
 *.sln
+imgui.ini
 
 # To be removed
 glfw3Config.cmake

@@ -49,6 +49,14 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	glfwSetMouseButtonCallback(handle, mouseButtonCallback);
 	glfwSetCursorPosCallback(handle, mouseMoveCallback);
 	glfwSetWindowSizeCallback(handle, windowSizeCallback);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	auto &io = ImGui::GetIO();
+	(void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(handle, true);
+	ImGui_ImplOpenGL3_Init("#version 460");
 }
 
 void Window::mouseButtonCallback(GLFWwindow * /*window*/, int button, int action, int mods) {
