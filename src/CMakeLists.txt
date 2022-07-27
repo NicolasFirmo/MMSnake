@@ -1,3 +1,5 @@
+find_package(TBB REQUIRED)
+
 string(TOLOWER ${PROJECT_NAME} ExecutableName)
 
 file(GLOB_RECURSE "${ExecutableName}_SOURCES" RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
@@ -27,6 +29,7 @@ endif(supportsIPO)
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
 target_link_libraries(${ExecutableName}
+	TBB::tbb
 	fmt::fmt-header-only
 	glfw
 	glad)
