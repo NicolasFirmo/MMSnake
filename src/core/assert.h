@@ -25,5 +25,9 @@ static constexpr auto srcDirName = "src/";
 		debugBreak();                                                                              \
 	}
 #else
+#ifdef PLATFORM_UNIX
+#define debugAssert(x, message) _Pragma ("GCC diagnostic push") _Pragma ("GCC diagnostic ignored \"-Wunused-value\"") x; _Pragma ("GCC diagnostic pop")
+#else
 #define debugAssert(x, message) x
+#endif // !PLATFORM_UNIX
 #endif // !NDEBUG
