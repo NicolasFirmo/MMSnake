@@ -83,7 +83,7 @@ void Renderer::beginBatch() {
 void Renderer::endBatch() {
 	GLsizeiptr size = (GLubyte *)currentLineQuad - (GLubyte *)lineQuadBuffer;
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(LineQuad) * lineQuadsPerBatch, lineQuadBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, size, lineQuadBuffer);
 
 	glBindVertexArray(vertexArrayId);
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
