@@ -35,7 +35,7 @@ void Game::run() {
 
 void Game::shutdown() {
 	profileTrace();
-	running = true;
+	running = false;
 }
 
 void Game::onEvent(Event &evt) {
