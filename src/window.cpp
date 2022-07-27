@@ -30,6 +30,8 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	glfwWindowHint(GLFW_SAMPLES, 4);
+
 	handle = glfwCreateWindow(size.w, size.h, title, NULL, NULL);
 	glfwMakeContextCurrent(handle);
 	debugAssert(handle, "Failed to create GLFW window");
@@ -49,17 +51,17 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	glfwSetWindowSizeCallback(handle, windowSizeCallback);
 }
 
-void Window::mouseButtonCallback(GLFWwindow */*window*/, int button, int action, int mods) {
+void Window::mouseButtonCallback(GLFWwindow * /*window*/, int button, int action, int mods) {
 	App::onEvent(MouseButtonEvent{MouseButton(button), MouseAction(action), MouseMods(mods)});
 }
 
-void Window::mouseMoveCallback(GLFWwindow */*window*/, double xpos, double ypos) {
+void Window::mouseMoveCallback(GLFWwindow * /*window*/, double xpos, double ypos) {
 	App::onEvent(MouseMoveEvent{
 		{.x = xpos, .y = ypos}
 	  });
 }
 
-void Window::windowSizeCallback(GLFWwindow */*window*/, int width, int height) {
+void Window::windowSizeCallback(GLFWwindow * /*window*/, int width, int height) {
 	App::onEvent(WindowSizeEvent{
 		{.w = width, .h = height}
 	 });
