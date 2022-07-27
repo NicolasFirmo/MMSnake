@@ -1,5 +1,3 @@
-find_package(TBB REQUIRED)
-
 string(TOLOWER ${PROJECT_NAME} ExecutableName)
 
 file(GLOB_RECURSE "${ExecutableName}_SOURCES" RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
@@ -17,6 +15,7 @@ if(WIN32)
 	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_WINDOWS)
 elseif(UNIX)
 	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_UNIX)
+	find_package(TBB REQUIRED)
 endif()
 
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -27,8 +26,11 @@ endif()
 
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
+if(UNIX)
+	target_link_libraries(${ExecutableName} TBB::tbb)
+endif()
+
 target_link_libraries(${ExecutableName}
-	TBB::tbb
 	fmt::fmt-header-only
 	glfw
 	glad)
