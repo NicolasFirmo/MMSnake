@@ -58,8 +58,8 @@ void Game::render() {
 	profileTrace();
 	Renderer::beginBatch();
 
-	for (size_t i = 0; i < 2; ++i)
-		for (size_t j = 0; j < 2; ++j) {
+	for (GLfloat i = 0; i < 2; ++i)
+		for (GLfloat j = 0; j < 2; ++j) {
 			const Point2<GLfloat> corner = {.x = -.5F + i * 1.0F, .y = -.5F + j * 1.0F};
 			Renderer::drawLine(corner, cursorPosition, .005F);
 		}
