@@ -58,6 +58,7 @@ App::ExitCode App::run() {
 void App::shutdown() {
 	profileTrace();
 	running = false;
+	Renderer::shutdown();
 	Window::shutdown();
 }
 
