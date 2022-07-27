@@ -92,6 +92,8 @@ void App::onEvent(Event &&evt) {
 				   mods & MouseMods::alt ? "alt" : "");
 		break;
 	}
+	default:
+		break;
 	}
 
 	Game::onEvent(evt);

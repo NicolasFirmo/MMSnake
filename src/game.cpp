@@ -49,6 +49,8 @@ void Game::onEvent(Event &evt) {
 		cursorPosition.y = -screenY / Window::getHeight() * 2 + 1.0F;
 		break;
 	}
+	default:
+		break;
 	}
 }
 
