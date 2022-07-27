@@ -31,25 +31,27 @@ App::ExitCode App::run() {
 	profileTrace();
 	running = true;
 
-	Shader shader{"line"};
-	shader.bind();
+	{
+		Shader shader{"line"};
+		shader.bind();
 
-	Game::init();
+		Game::init();
 
-	using namespace std::chrono;
-	while (running && !Window::closing()) {
-		profileTrace("app run loop");
-		Window::pollEvents();
+		using namespace std::chrono;
+		while (running && !Window::closing()) {
+			profileTrace("app run loop");
+			Window::pollEvents();
 
-		Renderer::setDrawColor(1.0F, 1.0F, 1.0F, 1.0F);
-		Renderer::clear();
+			Renderer::setDrawColor(1.0F, 1.0F, 1.0F, 1.0F);
+			Renderer::clear();
 
-		Game::render();
+			Game::render();
 
-		Window::showFrame();
+			Window::showFrame();
+		}
+
+		Game::shutdown();
 	}
-
-	Game::shutdown();
 
 	shutdown();
 	return ExitCode::success;
