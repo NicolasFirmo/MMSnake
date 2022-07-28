@@ -9,6 +9,10 @@ struct Point2 {
 		return {.x = static_cast<OtherT>(x), .y = static_cast<OtherT>(y)};
 	}
 
+	[[nodiscard]] static constexpr Point2 fromPolar(const T &magnitude, const T &angle) {
+		return {.x = magnitude * std::cos(angle), .y = magnitude * std::sin(angle)};
+	}
+
 	constexpr Point2 &operator+=(const Point2 &other) {
 		x += other.x;
 		y += other.y;
