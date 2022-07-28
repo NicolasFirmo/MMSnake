@@ -1,6 +1,6 @@
 #include "app.h"
 
-#include "game.h"
+#include "game/game.h"
 #include "window.h"
 
 #include "renderer/renderer.h"
@@ -51,7 +51,7 @@ App::ExitCode App::run() {
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 
-			ImGui::ShowDemoWindow();
+			Game::onImGui();
 
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "stick_figure.h"
+
 #include "events/event.h"
 
 class Game {
@@ -11,7 +13,11 @@ public:
 
 	static void onEvent(Event &evt);
 
+	static void onImGui();
+
 	static void render();
+
+	static void drawStickFigure(const StickFigure &stickFigure);
 
 private:
 	static void run();
