@@ -54,6 +54,9 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	ImGui::CreateContext();
 	auto &io = ImGui::GetIO();
 	(void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; 
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(handle, true);
 	ImGui_ImplOpenGL3_Init("#version 460");
