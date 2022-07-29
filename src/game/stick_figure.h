@@ -12,11 +12,11 @@ public:
 
 		GLfloat leftArmShoulder{pi / 2};
 		GLfloat leftArmElbow{0};
-		GLfloat leftLegHip{pi * 3 / 4};
-		GLfloat leftLegKnee{0};
-
 		GLfloat rightArmShoulder{-pi / 2};
 		GLfloat rightArmElbow{0};
+
+		GLfloat leftLegHip{pi * 3 / 4};
+		GLfloat leftLegKnee{0};
 		GLfloat rightLegHip{-pi * 3 / 4};
 		GLfloat rightLegKnee{0};
 	};

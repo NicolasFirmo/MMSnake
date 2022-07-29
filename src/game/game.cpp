@@ -55,7 +55,17 @@ void Game::onEvent(Event &evt) {
 
 void Game::onImGui() {
 
-	ImGui::ShowDemoWindow();
+	ImGui::Begin("Stick figure body");
+
+	ImGui::SliderFloat2("Torso", &testStickFigure.joints.torsoHip, -pi, pi);
+
+	ImGui::SliderFloat2("Left arm", &testStickFigure.joints.leftArmShoulder, -pi, pi);
+	ImGui::SliderFloat2("Right arm", &testStickFigure.joints.rightArmShoulder, -pi, pi);
+
+	ImGui::SliderFloat2("Left leg", &testStickFigure.joints.leftLegHip, -pi, pi);
+	ImGui::SliderFloat2("Right leg", &testStickFigure.joints.rightLegHip, -pi, pi);
+
+	ImGui::End();
 }
 
 void Game::render() {
@@ -107,7 +117,7 @@ void Game::drawStickFigure(const StickFigure &stickFigure) {
 	const auto rightFoot =
 		rightKnee + Point2<GLfloat>::fromPolar(stickFigure.lenghts.legLower, rightLowerLegAngle);
 
-	static constexpr GLfloat thickness = 0.008F;
+	static constexpr GLfloat thickness = 0.01F;
 	Renderer::drawLine(hip, spine, thickness);
 	Renderer::drawLine(spine, shoulders, thickness);
 
