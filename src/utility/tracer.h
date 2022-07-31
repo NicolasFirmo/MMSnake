@@ -1,5 +1,7 @@
 #pragma once
 
+#include "core/macros.h"
+
 class Tracer {
 public:
 	class Timer {
@@ -22,8 +24,6 @@ public:
 	static void begin(const std::string &filepath);
 	static void end();
 
-	[[nodiscard]] static Timer
-	trace(std::source_location location = std::source_location::current());
 	[[nodiscard]] static Timer trace(const char *location);
 
 private:
@@ -32,7 +32,9 @@ private:
 };
 
 #if 1
-#define profileTrace(location) auto traceTimer = Tracer::trace(location)
+#define profileTraceFunc()			auto traceTimer = Tracer::trace(funcSign)
+#define profileTraceScope(location) auto traceTimer = Tracer::trace(location)
 #else
-#define profileTrace(location)
+#define profileTraceFunc()
+#define profileTraceScope(location)
 #endif

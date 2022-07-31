@@ -17,17 +17,19 @@ bool Game::running = false;
 static StickFigure testStickFigure;
 
 void Game::init() {
-	profileTrace();
+	profileTraceFunc();
+
 	running = true;
 	std::thread gameLoop{run};
 	gameLoop.detach();
 }
 
 void Game::run() {
-	profileTrace();
+	profileTraceFunc();
+
 	Timer timer;
 	while (running) {
-		profileTrace("game run loop");
+		profileTraceScope("game run loop");
 		const auto deltaT = timer.getSecondsElapsed();
 		timer.startCounting();
 		debugLog("Game loop period: {}\n", deltaT);
@@ -36,7 +38,8 @@ void Game::run() {
 }
 
 void Game::shutdown() {
-	profileTrace();
+	profileTraceFunc();
+
 	running = false;
 }
 
@@ -54,7 +57,6 @@ void Game::onEvent(Event &evt) {
 }
 
 void Game::onImGui() {
-
 	ImGui::Begin("Stick figure body");
 
 	ImGui::SliderFloat2("Torso", &testStickFigure.joints.torsoHip, -pi, pi);
@@ -69,7 +71,8 @@ void Game::onImGui() {
 }
 
 void Game::render() {
-	profileTrace();
+	profileTraceFunc();
+
 	Renderer::beginBatch();
 
 	drawStickFigure(testStickFigure);
@@ -78,6 +81,8 @@ void Game::render() {
 }
 
 void Game::drawStickFigure(const StickFigure &stickFigure) {
+	profileTraceFunc();
+
 	// torso
 	const auto &hip				= stickFigure.position;
 	const auto &lowerTorsoAngle = stickFigure.joints.torsoHip;

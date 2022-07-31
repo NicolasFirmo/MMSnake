@@ -51,10 +51,6 @@ void Tracer::end() {
 	file.close();
 }
 
-Tracer::Timer Tracer::trace(std::source_location location) {
-	return location.function_name();
-}
-
 Tracer::Timer Tracer::trace(const char *location) {
 	return location;
 }

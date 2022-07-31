@@ -1,6 +1,10 @@
 #include "shader.h"
 
+#include "utility/tracer.h"
+
 Shader::Shader(const std::string &name) {
+	profileTraceFunc();
+
 	id_ = glCreateProgram();
 
 	std::array<GLuint, std::size(shaderTypes)> shaderIds{0};
@@ -27,6 +31,8 @@ Shader::Shader(const std::string &name) {
 }
 
 Shader::~Shader() {
+	profileTraceFunc();
+
 	if (id_)
 		glDeleteProgram(id_);
 }
@@ -43,6 +49,8 @@ Shader &Shader::operator=(Shader &&other) {
 }
 
 std::string Shader::loadShaderSource(std::string_view name, std::string_view extension) {
+	profileTraceFunc();
+
 	using namespace std::string_literals;
 	std::string fileName =
 		"assets/shaders/"s + name.data() + '/' + name.data() + '.' + extension.data() + ".glsl";
@@ -66,6 +74,8 @@ std::string Shader::loadShaderSource(std::string_view name, std::string_view ext
 }
 
 GLuint Shader::compileShader(GLenum type, const GLchar *source) {
+	profileTraceFunc();
+
 	auto shaderId = glCreateShader(type);
 	glShaderSource(shaderId, 1, &source, nullptr);
 	glCompileShader(shaderId);

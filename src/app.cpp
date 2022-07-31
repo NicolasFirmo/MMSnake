@@ -16,7 +16,8 @@
 bool App::running = false;
 
 App::ExitCode App::init() {
-	profileTrace();
+	profileTraceFunc();
+
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
 	Renderer::setViewport({
@@ -28,9 +29,9 @@ App::ExitCode App::init() {
 }
 
 App::ExitCode App::run() {
-	profileTrace();
-	running = true;
+	profileTraceFunc();
 
+	running = true;
 	{
 		Shader shader{"line"};
 		shader.bind();
@@ -39,7 +40,7 @@ App::ExitCode App::run() {
 
 		using namespace std::chrono;
 		while (running && !Window::closing()) {
-			profileTrace("app run loop");
+			profileTraceScope("app run loop");
 			Window::pollEvents();
 
 			Renderer::setDrawColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -74,7 +75,8 @@ App::ExitCode App::run() {
 }
 
 void App::shutdown() {
-	profileTrace();
+	profileTraceFunc();
+
 	running = false;
 	Renderer::shutdown();
 	Window::shutdown();

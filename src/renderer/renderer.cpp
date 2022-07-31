@@ -12,6 +12,8 @@ LineQuad *Renderer::currentLineQuad = nullptr;
 GLsizei Renderer::indexCount		= 0;
 
 void Renderer::init() {
+	profileTraceFunc();
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
@@ -54,6 +56,8 @@ void Renderer::init() {
 }
 
 void Renderer::shutdown() {
+	profileTraceFunc();
+
 	glDeleteVertexArrays(1, &vertexArrayId);
 	glDeleteBuffers(1, &vertexBufferId);
 	glDeleteBuffers(1, &indexBufferId);
@@ -81,6 +85,8 @@ void Renderer::beginBatch() {
 }
 
 void Renderer::endBatch() {
+	profileTraceFunc();
+
 	GLsizeiptr size = (GLubyte *)currentLineQuad - (GLubyte *)lineQuadBuffer;
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, size, lineQuadBuffer);
