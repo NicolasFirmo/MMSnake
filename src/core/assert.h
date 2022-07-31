@@ -1,9 +1,9 @@
 #pragma once
 
+#include "core/macros.h"
+
 #include "utility/log.hpp"
 #include "utility/file_path.h"
-
-#include "core/debug_break.h"
 
 #ifdef PLATFORM_WINDOWS
 static constexpr auto srcDirName = "src\\";
@@ -16,18 +16,17 @@ static constexpr auto srcDirName = "src/";
 #ifndef NDEBUG
 #define debugAssert(x, message)                                                                    \
 	if (!(x)) {                                                                                    \
-		static constexpr auto location	   = std::source_location::current();                      \
-		static constexpr auto fileName	   = getRelativePath(location.file_name(), srcDirName);    \
-		static constexpr auto functionName = location.function_name();                             \
-		static constexpr auto line		   = location.line();                                      \
-		debugLog("assertion falied on line {} of {} in {}\n\t{}\n", line, functionName, fileName,  \
+		static constexpr auto fileName = getRelativePath(__FILE__, srcDirName);                    \
+		debugLog("assertion falied on line {} of {} in {}\n\t{}\n", __LINE__, funcSign, fileName,  \
 				 message);                                                                         \
 		debugBreak();                                                                              \
 	}
 #else
-#ifdef PLATFORM_UNIX
-#define debugAssert(x, message) _Pragma ("GCC diagnostic push") _Pragma ("GCC diagnostic ignored \"-Wunused-value\"") x; _Pragma ("GCC diagnostic pop")
+#ifdef defined(__GNUC__) || defined(__clang__)
+#define debugAssert(x, message)                                                                    \
+	_Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wunused-value\"") x;         \
+	_Pragma("GCC diagnostic pop")
 #else
 #define debugAssert(x, message) x
-#endif // !PLATFORM_UNIX
-#endif // !NDEBUG
+#endif // defined(__GNUC__) || defined(__clang__)
+#endif // NDEBUG
