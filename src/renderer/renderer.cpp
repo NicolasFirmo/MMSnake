@@ -25,15 +25,15 @@ void Renderer::init() {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, sizeof(LineQuad::Vertex::worldPt) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  static_cast<void *>(offsetof(LineQuad::Vertex, worldPt)));
+						  reinterpret_cast<void *>(offsetof(LineQuad::Vertex, worldPt)));
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, sizeof(LineQuad::Vertex::modelPt) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  static_cast<void *>(offsetof(LineQuad::Vertex, modelPt)));
+						  reinterpret_cast<void *>(offsetof(LineQuad::Vertex, modelPt)));
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, sizeof(LineQuad::Vertex::modelLength) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  static_cast<void *>(offsetof(LineQuad::Vertex, modelLength)));
+						  reinterpret_cast<void *>(offsetof(LineQuad::Vertex, modelLength)));
 
 	std::array<GLuint, indicesPerBatch> rectIndicies;
 	for (GLuint i = 0, offset = 0; i < rectIndicies.size(); i += indicesPerLineQuad, offset += 4) {
