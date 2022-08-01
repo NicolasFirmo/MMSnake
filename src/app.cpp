@@ -13,6 +13,8 @@
 #include "utility/timer.h"
 #include "utility/tracer.h"
 
+#include "core/sleeper.h"
+
 bool App::running = false;
 
 App::ExitCode App::init() {
@@ -24,6 +26,8 @@ App::ExitCode App::init() {
 		.pos = {.x = 0, .y = 0},
 			 .size = Window::getSize()
 	  });
+
+	Sleeper::init();
 
 	return ExitCode::success;
 }

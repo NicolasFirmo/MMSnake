@@ -13,7 +13,10 @@
 #include "utility/timer.h"
 #include "utility/tracer.h"
 
+#include "core/sleeper.h"
+
 bool Game::running = false;
+
 static StickFigure testStickFigure;
 
 void Game::init() {
@@ -28,12 +31,15 @@ void Game::run() {
 	profileTraceFunc();
 
 	Timer timer;
+	Sleeper sleeper;
 	while (running) {
 		profileTraceScope("game run loop");
+
 		const auto deltaT = timer.getSecondsElapsed();
 		timer.startCounting();
-		debugLog("Game loop period: {}\n", deltaT);
-		timer.syncThread(gameLoopPeriod);
+		fmt::print("Game loop period: {}\n", deltaT);
+
+		sleeper.sleep(1'000'000 / 500);
 	}
 }
 
