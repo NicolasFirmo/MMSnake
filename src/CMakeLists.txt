@@ -26,7 +26,9 @@ endif()
 
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
-if(UNIX)
+if(WIN32)
+	target_link_libraries(${ExecutableName} winmm.lib)
+elseif(UNIX)
 	target_link_libraries(${ExecutableName} TBB::tbb)
 endif()
 
