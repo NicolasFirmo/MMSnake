@@ -5,12 +5,12 @@
 #include "utility/log.hpp"
 #include "utility/file_path.h"
 
-#ifdef PLATFORM_WINDOWS
+#if defined(PLATFORM_WINDOWS)
 static constexpr auto srcDirName = "src\\";
-#elif PLATFORM_UNIX
+#elif defined(PLATFORM_UNIX)
 static constexpr auto srcDirName = "src/";
 #else
-#error Only Windows and Unix Supported for now!
+#error Only Windows and Unix supported for now!
 #endif
 
 #ifndef NDEBUG

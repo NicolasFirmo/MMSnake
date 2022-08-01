@@ -9,5 +9,5 @@
 
 #define funcSign	 __PRETTY_FUNCTION__
 #else
-#error Only Windows and Unix Supported for now!
+#error Only MSVC, GCC and Clang supported for now!
 #endif
