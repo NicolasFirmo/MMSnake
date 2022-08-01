@@ -6,19 +6,24 @@ file(GLOB_RECURSE "${ExecutableName}_SOURCES" RELATIVE ${CMAKE_CURRENT_SOURCE_DI
 	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
 )
 list(REMOVE_ITEM ${ExecutableName}_SOURCES pch.h)
+
+if(WIN32)
+	list(FILTER ${ExecutableName}_SOURCES EXCLUDE REGEX "_unix.(cpp|h)")
+elseif(UNIX)
+	list(FILTER ${ExecutableName}_SOURCES EXCLUDE REGEX "_windows.(cpp|h)")
+endif()
+
 message(STATUS "${ExecutableName}_SOURCES: ${${ExecutableName}_SOURCES}")
 
 add_executable(${ExecutableName} ${${ExecutableName}_SOURCES})
-target_compile_definitions(${ExecutableName} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,1,0>)
-
-if(WIN32)
-	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_WINDOWS)
-elseif(UNIX)
-	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_UNIX)
-	find_package(TBB REQUIRED)
-endif()
-
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${ExecutableName}
+	fmt::fmt-header-only
+	glfw
+	glad
+	imgui)
+
+target_compile_definitions(${ExecutableName} PRIVATE DEBUG=$<IF:$<CONFIG:Debug>,1,0>)
 
 if(supportsIPO)
 	set_target_properties(${ExecutableName} PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
@@ -27,17 +32,13 @@ endif()
 target_precompile_headers(${ExecutableName} PRIVATE pch.h)
 
 if(WIN32)
+	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_WINDOWS)
 	target_link_libraries(${ExecutableName} winmm.lib)
 elseif(UNIX)
+	target_compile_definitions(${ExecutableName} PRIVATE PLATFORM_UNIX)
+	find_package(TBB REQUIRED)
 	target_link_libraries(${ExecutableName} TBB::tbb)
 endif()
-
-target_link_libraries(${ExecutableName}
-	fmt::fmt-header-only
-	glfw
-	glad
-	imgui
-	)
 
 if(MSVC)
 	target_compile_options(${ExecutableName} PRIVATE
