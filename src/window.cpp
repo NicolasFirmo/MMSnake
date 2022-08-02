@@ -10,15 +10,15 @@
 
 #include "core/assert.h"
 
-GLFWwindow *Window::handle = nullptr;
+GLFWwindow *Window::handle_ = nullptr;
 
-Size2<GLsizei> Window::size{};
-int Window::vsync{};
+Size2<GLsizei> Window::size_{};
+int Window::vsync_{};
 
 void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyncEnabled) {
 	profileTraceFunc();
 
-	Window::size = size;
+	size_ = size;
 
 	glfwSetErrorCallback([](int error, const char *description) {
 		fmt::print(stderr, "GLFW error ({}): {}", error, description);
@@ -33,9 +33,9 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
-	handle = glfwCreateWindow(size.w, size.h, title, NULL, NULL);
-	glfwMakeContextCurrent(handle);
-	debugAssert(handle, "Failed to create GLFW window");
+	handle_ = glfwCreateWindow(size.w, size.h, title, NULL, NULL);
+	glfwMakeContextCurrent(handle_);
+	debugAssert(handle_, "Failed to create GLFW window");
 
 	setVsync(vsyncEnabled);
 
@@ -47,9 +47,9 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	debugLog("\tRenderer: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
 	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
 
-	glfwSetMouseButtonCallback(handle, mouseButtonCallback);
-	glfwSetCursorPosCallback(handle, mouseMoveCallback);
-	glfwSetWindowSizeCallback(handle, windowSizeCallback);
+	glfwSetMouseButtonCallback(handle_, mouseButtonCallback);
+	glfwSetCursorPosCallback(handle_, mouseMoveCallback);
+	glfwSetWindowSizeCallback(handle_, windowSizeCallback);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -59,7 +59,7 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(handle, true);
+	ImGui_ImplGlfw_InitForOpenGL(handle_, true);
 	ImGui_ImplOpenGL3_Init("#version 460");
 }
 
@@ -86,18 +86,18 @@ void Window::shutdown() {
 }
 
 bool Window::closing() {
-	return glfwWindowShouldClose(handle);
+	return glfwWindowShouldClose(handle_) == 0 ? false : true;
 }
 
 void Window::showFrame() {
 	profileTraceFunc();
 
-	glfwSwapBuffers(handle);
+	glfwSwapBuffers(handle_);
 }
 
 void Window::setVsync(bool enabled) {
-	vsync = enabled ? 1 : 0;
-	glfwSwapInterval(vsync);
+	vsync_ = enabled ? 1 : 0;
+	glfwSwapInterval(vsync_);
 }
 
 void Window::pollEvents() {
@@ -107,5 +107,5 @@ void Window::pollEvents() {
 }
 
 void Window::setTitle(const char *title) {
-	glfwSetWindowTitle(handle, title);
+	glfwSetWindowTitle(handle_, title);
 }

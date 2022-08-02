@@ -14,12 +14,12 @@ public:
 
 	static void showFrame();
 
-	[[nodiscard]] static const auto &getSize() { return size; }
-	[[nodiscard]] static auto getWidth() { return size.w; }
-	[[nodiscard]] static auto getHeight() { return size.h; }
+	[[nodiscard]] static const auto &getSize() { return size_; }
+	[[nodiscard]] static auto getWidth() { return size_.w; }
+	[[nodiscard]] static auto getHeight() { return size_.h; }
 
 	static void setVsync(bool enabled);
-	[[nodiscard]] static bool isVsyncOn() { return vsync != 0; }
+	[[nodiscard]] static bool isVsyncOn() { return vsync_ != 0; }
 
 	static void setTitle(const char *title);
 
@@ -28,8 +28,8 @@ private:
 	static void mouseMoveCallback(GLFWwindow *window, double xpos, double ypos);
 	static void windowSizeCallback(GLFWwindow *window, int width, int height);
 
-	static GLFWwindow *handle;
+	static GLFWwindow *handle_;
 
-	static Size2<GLsizei> size;
-	static int vsync;
+	static Size2<GLsizei> size_;
+	static int vsync_;
 };
