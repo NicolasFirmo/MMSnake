@@ -42,7 +42,7 @@ endif()
 
 if(MSVC)
 	target_compile_options(${ExecutableName} PRIVATE
-		"$<$<COMPILE_LANGUAGE:CXX>:/Wall;/wd4061;/wd4577;/wd4514;/wd4582;/wd4623;/wd4625;/wd4626;/wd4710;/wd4820;/wd5027;/wd5045;/wd26437;/wd26450;/wd26451;/wd26495;/wd26498;/MP;/Oi;/GL;$<$<CONFIG:RELEASE>:/Ot;/GR->>")
+		"$<$<COMPILE_LANGUAGE:CXX>:/Wall;/wd4061;/wd4577;/wd4514;/wd4582;/wd4623;/wd4625;/wd4626;/wd4710;/wd4711;/wd4820;/wd5027;/wd5045;/wd26437;/wd26439;/wd26450;/wd26451;/wd26495;/wd26498;/MP;/Oi;/GL;$<$<CONFIG:RELEASE>:/Ot;/GR->>")
 
 	# Disable exceptions: https://cmake.org/pipermail/cmake/2010-December/041641.html
 	if(CMAKE_CXX_FLAGS MATCHES "/EHsc ")
