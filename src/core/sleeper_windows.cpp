@@ -14,7 +14,18 @@ Sleeper::Sleeper() {
 }
 
 Sleeper::~Sleeper() {
-	CloseHandle(timer_);
+	if (timer_)
+		CloseHandle(timer_);
+}
+
+Sleeper::Sleeper(Sleeper &&other) : timer_(other.timer_) {
+	other.timer_ = nullptr;
+}
+
+Sleeper &Sleeper::operator=(Sleeper &&other) {
+	timer_		 = other.timer_;
+	other.timer_ = nullptr;
+	return *this;
 }
 
 void Sleeper::sleep(int64_t microseconds) {

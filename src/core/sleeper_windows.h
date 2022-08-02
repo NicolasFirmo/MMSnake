@@ -6,10 +6,10 @@ public:
 
 	Sleeper();
 	~Sleeper();
-	Sleeper(const Sleeper &)			= delete;
-	Sleeper(Sleeper &&)					= default;
+	Sleeper(const Sleeper &) = delete;
+	Sleeper(Sleeper &&);
 	Sleeper &operator=(const Sleeper &) = delete;
-	Sleeper &operator=(Sleeper &&)		= default;
+	Sleeper &operator=(Sleeper &&);
 
 	void sleep(int64_t microseconds);
 
