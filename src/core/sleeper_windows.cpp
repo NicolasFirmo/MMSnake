@@ -29,7 +29,7 @@ Sleeper &Sleeper::operator=(Sleeper &&other) {
 }
 
 void Sleeper::sleep(int64_t microseconds) {
-	LARGE_INTEGER li{0};
+	LARGE_INTEGER li{{0}};
 	li.QuadPart = static_cast<LONGLONG>(-microseconds * 10);
 
 	debugAssert(SetWaitableTimer(timer_, &li, 0, NULL, NULL, FALSE),
