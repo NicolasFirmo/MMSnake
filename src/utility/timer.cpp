@@ -10,7 +10,3 @@ double Timer::getSecondsElapsed() const {
 	static constexpr auto microsecondsTosecondsRatio = 1'000'000.0;
 	return double(getMicrosecondsElapsed()) / microsecondsTosecondsRatio;
 }
-
-void Timer::syncThread(std::chrono::microseconds period) const {
-	std::this_thread::sleep_until(startTime_ + period);
-}
