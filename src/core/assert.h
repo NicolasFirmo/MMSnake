@@ -22,7 +22,11 @@ static constexpr auto srcDirName = "src/";
 		debugBreak();                                                                              \
 	}
 #else
-#ifdef defined(__GNUC__) || defined(__clang__)
+#if defined(_MSC_VER)
+#define debugAssert(x, message)                                                                    \
+	__pragma(warning(push)) __pragma(warning(disable : 4834 4552 4555 6031)) x;                    \
+	__pragma(warning(pop))
+#elif defined(__GNUC__) || defined(__clang__)
 #define debugAssert(x, message)                                                                    \
 	_Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wunused-value\"") x;         \
 	_Pragma("GCC diagnostic pop")
