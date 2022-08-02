@@ -39,7 +39,7 @@ void Game::run() {
 		timer.startCounting();
 		fmt::print("Game loop period: {}\n", deltaT);
 
-		sleeper.sleep(1'000'000 / 500);
+		sleeper.preciseSync(2500, timer);
 	}
 }
 
@@ -57,8 +57,7 @@ void Game::onEvent(Event &evt) {
 		const auto [screenX, screenY] = static_cast<MouseMoveEvent &>(evt).pos;
 		break;
 	}
-	default:
-		break;
+	default: break;
 	}
 }
 
