@@ -35,9 +35,9 @@ void Game::run() {
 	while (running) {
 		profileTraceScope("game run loop");
 
-		const auto deltaT = timer.getSecondsElapsed();
+		//const auto deltaT = timer.getSecondsElapsed();
 		timer.startCounting();
-		fmt::print("Game loop period: {}\n", deltaT);
+		// fmt::print("Game loop period: {}\n", deltaT);
 
 		sleeper.preciseSync(2500, timer);
 	}
