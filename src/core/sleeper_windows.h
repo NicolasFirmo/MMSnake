@@ -11,9 +11,9 @@ public:
 	Sleeper();
 	~Sleeper();
 	Sleeper(const Sleeper &) = delete;
-	Sleeper(Sleeper &&other);
+	Sleeper(Sleeper &&other) noexcept;
 	Sleeper &operator=(const Sleeper &) = delete;
-	Sleeper &operator=(Sleeper &&other);
+	Sleeper &operator=(Sleeper &&other) noexcept;
 
 	void sleep(int64_t microseconds);
 	void preciseSync(int64_t microseconds, const Timer &timer);

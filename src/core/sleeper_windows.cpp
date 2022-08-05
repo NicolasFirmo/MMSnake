@@ -18,11 +18,11 @@ Sleeper::~Sleeper() {
 		CloseHandle(timer_);
 }
 
-Sleeper::Sleeper(Sleeper &&other) : timer_(other.timer_) {
+Sleeper::Sleeper(Sleeper &&other) noexcept : timer_(other.timer_) {
 	other.timer_ = nullptr;
 }
 
-Sleeper &Sleeper::operator=(Sleeper &&other) {
+Sleeper &Sleeper::operator=(Sleeper &&other)  noexcept{
 	timer_		 = other.timer_;
 	other.timer_ = nullptr;
 	return *this;
