@@ -1,14 +1,19 @@
 #pragma once
 
 struct Event {
-	enum class Type { windowSize, mouseButton, mouseMove };
+	enum class Type {
+		windowSize,
+		mouseButton,
+		mouseMove
+	};
 
-	[[nodiscard]] virtual Type getType() const = 0;
+	[[nodiscard]] virtual constexpr Type getType() const = 0;
+	[[nodiscard]] virtual std::string toString() const = 0;
 
 	Event() = default;
 	virtual ~Event() {}
-	Event(const Event &) = default;
-	Event(Event &&) = default;
+	Event(const Event &)			= default;
+	Event(Event &&)					= default;
 	Event &operator=(const Event &) = default;
-	Event &operator=(Event &&) = default;
+	Event &operator=(Event &&)		= default;
 };

@@ -6,7 +6,8 @@
 struct WindowSizeEvent : public Event {
 	WindowSizeEvent(Size2<int> size) : size(size) {}
 
-	[[nodiscard]] Type getType() const override { return Type::windowSize; };
+	[[nodiscard]] constexpr Type getType() const override { return Type::windowSize; };
+	[[nodiscard]] std::string toString() const override;
 
 	Size2<int> size;
 };
