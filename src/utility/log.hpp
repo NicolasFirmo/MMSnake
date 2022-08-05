@@ -8,7 +8,8 @@
 template <typename... T>
 constexpr void debugLog(fmt::format_string<T...> fmt, T &&...args) {
 	if constexpr (DEBUG)
-		fmt::print(fmt::fg(fmt::color::light_green),std::move(fmt), std::forward<T>(args)...);
+		fmt::print(std::move(fmt), std::forward<T>(args)...);
+	//fmt::print(fmt::fg(fmt::color::light_green), std::move(fmt), std::forward<T>(args)...); // solve this bug
 }
 
 #if defined(_MSC_VER)
