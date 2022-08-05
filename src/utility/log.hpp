@@ -15,3 +15,15 @@ constexpr void debugLog(fmt::format_string<T...> fmt, T &&...args) {
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
+
+template <class T>
+concept Stringable = requires(T a) {
+	{ a.toString() } -> std::convertible_to<std::string>;
+};
+
+template <Stringable T>
+struct fmt::formatter<T> : fmt::formatter<std::string> {
+	auto format(const T &a, fmt::format_context &ctx) {
+		return fmt::format_to(ctx.out(), "{}", a.toString());
+	}
+};
