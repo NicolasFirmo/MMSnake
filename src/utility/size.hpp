@@ -2,7 +2,7 @@
 
 template <typename T>
 struct Size2 {
-	T w, h;
+	T w{0}, h{0};
 
 	constexpr Size2& operator*=(const T& value) {
 		w *= value;

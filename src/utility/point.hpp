@@ -2,7 +2,7 @@
 
 template <typename T>
 struct Point2 {
-	T x{}, y{};
+	T x{0}, y{0};
 
 	template <typename OtherT>
 	constexpr operator Point2<OtherT>() const {
