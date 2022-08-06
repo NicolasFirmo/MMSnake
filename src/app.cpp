@@ -86,5 +86,21 @@ void App::shutdown() {
 void App::onEvent(Event&& evt) {
 	debugLog("app: {}\n", evt);
 
+	auto type = evt.getType();
+
+	switch (type) {
+	case Event::Type::windowSize: {
+		Renderer::setViewport({.size = Window::size()});
+		break;
+	}
+	case Event::Type::mouseButton: {
+		break;
+	}
+	case Event::Type::mouseMove: {
+		break;
+	}
+	default: break;
+	}
+
 	Game::onEvent(evt);
 }
