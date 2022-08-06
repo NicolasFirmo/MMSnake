@@ -22,10 +22,7 @@ App::ExitCode App::init() {
 
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
-	Renderer::setViewport({
-		.pos = {.x = 0, .y = 0},
-			 .size = Window::getSize()
-	  });
+	Renderer::setViewport({.size = Window::size()});
 
 	Sleeper::init();
 
