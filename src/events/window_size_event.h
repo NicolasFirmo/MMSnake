@@ -1,7 +1,8 @@
 #pragma once
 
 #include "event.h"
-#include "utility/size.hpp"
+
+#include "geometric/size.hpp"
 
 struct WindowSizeEvent : public Event {
 	WindowSizeEvent(Size2<int> size) : size(size) {}

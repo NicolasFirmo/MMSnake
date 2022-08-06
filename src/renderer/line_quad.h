@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utility/point.hpp"
+#include "geometric/point.hpp"
 
 struct LineQuad {
 	struct Vertex {

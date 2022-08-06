@@ -9,9 +9,10 @@
 #include "renderer/renderer.h"
 
 #include "utility/log.hpp"
-#include "utility/point.hpp"
 #include "utility/timer.h"
 #include "utility/tracer.h"
+
+#include "geometric/point.hpp"
 
 #include "core/sleeper.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "utility/point.hpp"
-#include "utility/rect.hpp"
+#include "geometric/point.hpp"
+#include "geometric/rect.hpp"
 
 #include "line_quad.h"
 

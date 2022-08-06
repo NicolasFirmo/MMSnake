@@ -1,6 +1,6 @@
 #pragma once
-#include "utility/size.hpp"
-#include "utility/point.hpp"
+#include "size.hpp"
+#include "point.hpp"
 
 template <typename PointT, typename SizeT = PointT>
 struct Rect {

@@ -2,7 +2,7 @@
 
 #include "event.h"
 
-#include "utility/point.hpp"
+#include "geometric/point.hpp"
 
 enum MouseButton {
 	left   = 0,

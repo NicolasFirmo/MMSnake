@@ -1,6 +1,7 @@
 #include "renderer.h"
 
-#include "utility/point.hpp"
+#include "geometric/point.hpp"
+
 #include "utility/tracer.h"
 
 GLuint Renderer::vertexArrayId	= 0;

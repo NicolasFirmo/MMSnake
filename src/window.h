@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utility/size.hpp"
+#include "geometric/size.hpp"
 
 class Window {
 public:
