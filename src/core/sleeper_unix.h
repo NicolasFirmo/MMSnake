@@ -11,11 +11,11 @@ public:
 	Sleeper()  = default;
 	~Sleeper() = default;
 
-	Sleeper(const Sleeper &)			= delete;
-	Sleeper(Sleeper &&other)			= default;
-	Sleeper &operator=(const Sleeper &) = delete;
-	Sleeper &operator=(Sleeper &&other) = default;
+	Sleeper(const Sleeper&)				= delete;
+	Sleeper(Sleeper&& other)			= default;
+	Sleeper& operator=(const Sleeper&)	= delete;
+	Sleeper& operator=(Sleeper&& other) = default;
 
 	void sleep(int64_t microseconds);
-	void preciseSync(int64_t microseconds, const Timer &timer);
+	void preciseSync(int64_t microseconds, const Timer& timer);
 };

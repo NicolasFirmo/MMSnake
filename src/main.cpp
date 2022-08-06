@@ -2,7 +2,7 @@
 
 #include "utility/tracer.h"
 
-int main(int /*argc*/, char * /*argv*/[]) {
+int main(int /*argc*/, char* /*argv*/[]) {
 	Tracer::begin("profile.json");
 
 	if (const auto exitCode = App::init(); exitCode != App::ExitCode::success)

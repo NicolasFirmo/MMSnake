@@ -2,7 +2,7 @@
 
 #include "utility/tracer.h"
 
-Shader::Shader(const std::string &name) {
+Shader::Shader(const std::string& name) {
 	profileTraceFunc();
 
 	id_ = glCreateProgram();
@@ -10,7 +10,7 @@ Shader::Shader(const std::string &name) {
 	std::array<GLuint, std::size(shaderTypes)> shaderIds{0};
 
 	auto curerntShaderId = shaderIds.begin();
-	for (auto &&[type, extension] : shaderTypes) {
+	for (auto&& [type, extension] : shaderTypes) {
 		auto shaderSrc = loadShaderSource(name, extension);
 		if (shaderSrc.empty())
 			continue;
@@ -25,7 +25,7 @@ Shader::Shader(const std::string &name) {
 	glLinkProgram(id_);
 	glValidateProgram(id_);
 
-	for (auto &&shaderId : shaderIds)
+	for (auto&& shaderId : shaderIds)
 		if (shaderId != 0)
 			glDeleteShader(shaderId);
 }
@@ -37,11 +37,11 @@ Shader::~Shader() {
 		glDeleteProgram(id_);
 }
 
-Shader::Shader(Shader &&other) : id_(other.id_) {
+Shader::Shader(Shader&& other) : id_(other.id_) {
 	other.id_ = 0;
 }
 
-Shader &Shader::operator=(Shader &&other) {
+Shader& Shader::operator=(Shader&& other) {
 	id_		  = other.id_;
 	other.id_ = 0;
 
@@ -73,7 +73,7 @@ std::string Shader::loadShaderSource(std::string_view name, std::string_view ext
 	return src;
 }
 
-GLuint Shader::compileShader(GLenum type, const GLchar *source) {
+GLuint Shader::compileShader(GLenum type, const GLchar* source) {
 	profileTraceFunc();
 
 	auto shaderId = glCreateShader(type);

@@ -18,11 +18,11 @@ Sleeper::~Sleeper() {
 		CloseHandle(timer_);
 }
 
-Sleeper::Sleeper(Sleeper &&other) noexcept : timer_(other.timer_) {
+Sleeper::Sleeper(Sleeper&& other) noexcept : timer_(other.timer_) {
 	other.timer_ = nullptr;
 }
 
-Sleeper &Sleeper::operator=(Sleeper &&other)  noexcept{
+Sleeper& Sleeper::operator=(Sleeper&& other) noexcept {
 	timer_		 = other.timer_;
 	other.timer_ = nullptr;
 	return *this;
@@ -38,7 +38,7 @@ void Sleeper::sleep(int64_t microseconds) {
 	WaitForSingleObject(timer_, INFINITE);
 }
 
-void Sleeper::preciseSync(int64_t microseconds, const Timer &timer) {
+void Sleeper::preciseSync(int64_t microseconds, const Timer& timer) {
 	sleep(microseconds - wakeupError - timer.getMicrosecondsElapsed());
 	while (timer.getMicrosecondsElapsed() < microseconds) {}
 }

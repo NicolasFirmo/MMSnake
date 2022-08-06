@@ -10,7 +10,7 @@ struct LineQuad {
 	};
 
 	LineQuad() = default;
-	LineQuad(const Point2<GLfloat> &pt0, const Point2<GLfloat> &pt1, GLfloat thickness);
+	LineQuad(const Point2<GLfloat>& pt0, const Point2<GLfloat>& pt1, GLfloat thickness);
 
 	Vertex vertex0;
 	Vertex vertex1;

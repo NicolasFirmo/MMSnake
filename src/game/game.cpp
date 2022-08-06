@@ -35,7 +35,7 @@ void Game::run() {
 	while (running) {
 		profileTraceScope("game run loop");
 
-		//const auto deltaT = timer.getSecondsElapsed();
+		// const auto deltaT = timer.getSecondsElapsed();
 		timer.startCounting();
 		// fmt::print("Game loop period: {}\n", deltaT);
 
@@ -49,12 +49,12 @@ void Game::shutdown() {
 	running = false;
 }
 
-void Game::onEvent(Event &evt) {
+void Game::onEvent(Event& evt) {
 	auto type = evt.getType();
 
 	switch (type) {
 	case Event::Type::mouseMove: {
-		const auto [screenX, screenY] = static_cast<MouseMoveEvent &>(evt).pos;
+		const auto [screenX, screenY] = static_cast<MouseMoveEvent&>(evt).pos;
 		break;
 	}
 	default: break;
@@ -85,12 +85,12 @@ void Game::render() {
 	Renderer::endBatch();
 }
 
-void Game::drawStickFigure(const StickFigure &stickFigure) {
+void Game::drawStickFigure(const StickFigure& stickFigure) {
 	profileTraceFunc();
 
 	// torso
-	const auto &hip				= stickFigure.position;
-	const auto &lowerTorsoAngle = stickFigure.joints.torsoHip;
+	const auto& hip				= stickFigure.position;
+	const auto& lowerTorsoAngle = stickFigure.joints.torsoHip;
 	const auto spine =
 		hip + Point2<GLfloat>::fromPolar(stickFigure.lenghts.torsoLower, lowerTorsoAngle);
 	const auto upperTorsoAngle = lowerTorsoAngle + stickFigure.joints.torsoSpine;

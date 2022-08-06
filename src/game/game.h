@@ -13,13 +13,13 @@ public:
 	static void init();
 	static void shutdown();
 
-	static void onEvent(Event &evt);
+	static void onEvent(Event& evt);
 
 	static void onImGui();
 
 	static void render();
 
-	static void drawStickFigure(const StickFigure &stickFigure);
+	static void drawStickFigure(const StickFigure& stickFigure);
 
 private:
 	static void run();

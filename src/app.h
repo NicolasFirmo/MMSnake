@@ -13,7 +13,7 @@ public:
 	static ExitCode run();
 	static void shutdown();
 
-	static void onEvent(Event &&evt);
+	static void onEvent(Event&& evt);
 
 private:
 	static bool running;

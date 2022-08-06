@@ -4,7 +4,7 @@
 
 class Window {
 public:
-	static void init(const char *title, const Size2<GLsizei> &size = {.w = 800, .h = 600},
+	static void init(const char* title, const Size2<GLsizei>& size = {.w = 800, .h = 600},
 					 bool vsyncEnabled = true);
 	static void shutdown();
 
@@ -14,21 +14,21 @@ public:
 
 	static void showFrame();
 
-	[[nodiscard]] static const auto &getSize() { return size_; }
+	[[nodiscard]] static const auto& getSize() { return size_; }
 	[[nodiscard]] static auto getWidth() { return size_.w; }
 	[[nodiscard]] static auto getHeight() { return size_.h; }
 
 	static void setVsync(bool enabled);
 	[[nodiscard]] static bool isVsyncOn() { return vsync_ != 0; }
 
-	static void setTitle(const char *title);
+	static void setTitle(const char* title);
 
 private:
-	static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
-	static void mouseMoveCallback(GLFWwindow *window, double xpos, double ypos);
-	static void windowSizeCallback(GLFWwindow *window, int width, int height);
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	static void mouseMoveCallback(GLFWwindow* window, double xpos, double ypos);
+	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 
-	static GLFWwindow *handle_;
+	static GLFWwindow* handle_;
 
 	static Size2<GLsizei> size_;
 	static int vsync_;

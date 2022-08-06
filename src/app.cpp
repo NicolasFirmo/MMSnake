@@ -62,7 +62,7 @@ App::ExitCode App::run() {
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-				GLFWwindow *backup_current_context = glfwGetCurrentContext();
+				GLFWwindow* backup_current_context = glfwGetCurrentContext();
 				ImGui::UpdatePlatformWindows();
 				ImGui::RenderPlatformWindowsDefault();
 				glfwMakeContextCurrent(backup_current_context);
@@ -86,7 +86,7 @@ void App::shutdown() {
 	Window::shutdown();
 }
 
-void App::onEvent(Event &&evt) {
+void App::onEvent(Event&& evt) {
 	debugLog("app: {}\n", evt);
 
 	Game::onEvent(evt);

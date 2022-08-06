@@ -7,8 +7,8 @@ GLuint Renderer::vertexArrayId	= 0;
 GLuint Renderer::vertexBufferId = 0;
 GLuint Renderer::indexBufferId	= 0;
 
-LineQuad *Renderer::lineQuadBuffer	= nullptr;
-LineQuad *Renderer::currentLineQuad = nullptr;
+LineQuad* Renderer::lineQuadBuffer	= nullptr;
+LineQuad* Renderer::currentLineQuad = nullptr;
 GLsizei Renderer::indexCount		= 0;
 
 void Renderer::init() {
@@ -27,15 +27,15 @@ void Renderer::init() {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, sizeof(LineQuad::Vertex::worldPt) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  reinterpret_cast<void *>(offsetof(LineQuad::Vertex, worldPt)));
+						  reinterpret_cast<void*>(offsetof(LineQuad::Vertex, worldPt)));
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, sizeof(LineQuad::Vertex::modelPt) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  reinterpret_cast<void *>(offsetof(LineQuad::Vertex, modelPt)));
+						  reinterpret_cast<void*>(offsetof(LineQuad::Vertex, modelPt)));
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, sizeof(LineQuad::Vertex::modelLength) / sizeof(GLfloat), GL_FLOAT,
 						  GL_FALSE, sizeof(LineQuad::Vertex),
-						  reinterpret_cast<void *>(offsetof(LineQuad::Vertex, modelLength)));
+						  reinterpret_cast<void*>(offsetof(LineQuad::Vertex, modelLength)));
 
 	std::array<GLuint, indicesPerBatch> rectIndicies;
 	for (GLuint i = 0, offset = 0; i < rectIndicies.size(); i += indicesPerLineQuad, offset += 4) {
@@ -65,7 +65,7 @@ void Renderer::shutdown() {
 	delete[] lineQuadBuffer;
 }
 
-void Renderer::setViewport(const Rect<GLint, GLsizei> &rect) {
+void Renderer::setViewport(const Rect<GLint, GLsizei>& rect) {
 	const auto [x, y] = rect.pos;
 	const auto [w, h] = rect.size;
 	glViewport(x, y, w, h);
@@ -87,7 +87,7 @@ void Renderer::beginBatch() {
 void Renderer::endBatch() {
 	profileTraceFunc();
 
-	GLsizeiptr size = (GLubyte *)currentLineQuad - (GLubyte *)lineQuadBuffer;
+	GLsizeiptr size = (GLubyte*)currentLineQuad - (GLubyte*)lineQuadBuffer;
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, size, lineQuadBuffer);
 
@@ -95,7 +95,7 @@ void Renderer::endBatch() {
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 }
 
-void Renderer::drawLine(const Point2<GLfloat> &pt0, const Point2<GLfloat> &pt1, GLfloat thickness) {
+void Renderer::drawLine(const Point2<GLfloat>& pt0, const Point2<GLfloat>& pt1, GLfloat thickness) {
 	LineQuad lineQuad{pt0, pt1, thickness};
 	*currentLineQuad = lineQuad;
 	++currentLineQuad;

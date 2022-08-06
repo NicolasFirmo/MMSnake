@@ -11,7 +11,7 @@ void Sleeper::sleep(int64_t microseconds) {
 	nanosleep(&requestedTime, nullptr);
 }
 
-void Sleeper::preciseSync(int64_t microseconds, const Timer &timer) {
+void Sleeper::preciseSync(int64_t microseconds, const Timer& timer) {
 	sleep(microseconds - wakeupError - timer.getMicrosecondsElapsed());
 	while (timer.getMicrosecondsElapsed() < microseconds) {}
 }

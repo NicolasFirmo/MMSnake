@@ -6,7 +6,7 @@
 #endif
 
 template <typename... T>
-constexpr void debugLog(const std::string_view &fmt, T &&...args) {
+constexpr void debugLog(const std::string_view& fmt, T&&... args) {
 	if constexpr (DEBUG)
 		fmt::print(fmt::fg(fmt::color::green), fmt, std::forward<T>(args)...);
 }
@@ -22,7 +22,7 @@ concept Stringable = requires(T a) {
 
 template <Stringable T>
 struct fmt::formatter<T> : fmt::formatter<std::string> {
-	auto format(const T &a, fmt::format_context &ctx) {
+	auto format(const T& a, fmt::format_context& ctx) {
 		return fmt::format_to(ctx.out(), "{}", a.toString());
 	}
 };
