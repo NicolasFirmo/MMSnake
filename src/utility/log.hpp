@@ -6,10 +6,9 @@
 #endif
 
 template <typename... T>
-constexpr void debugLog(fmt::format_string<T...> fmt, T &&...args) {
+constexpr void debugLog(const std::string_view &fmt, T &&...args) {
 	if constexpr (DEBUG)
-		fmt::print(std::move(fmt), std::forward<T>(args)...);
-	//fmt::print(fmt::fg(fmt::color::light_green), std::move(fmt), std::forward<T>(args)...); // solve this bug
+		fmt::print(fmt::fg(fmt::color::green), fmt, std::forward<T>(args)...);
 }
 
 #if defined(_MSC_VER)
