@@ -17,6 +17,8 @@
 
 bool Game::running = false;
 
+static Point2<double> mouseWorldPosition;
+
 static StickFigure testStickFigure;
 
 void Game::init() {
@@ -54,8 +56,16 @@ void Game::onEvent(Event& evt) {
 
 	switch (type) {
 	case Event::Type::mouseMove: {
-		const auto [screenX, screenY] = static_cast<MouseMoveEvent&>(evt).pos;
+		const auto& mouseMoveEvt	  = static_cast<MouseMoveEvent&>(evt);
+		const auto [screenX, screenY] = mouseMoveEvt.pos;
+		mouseWorldPosition			  = {.x = screenX / double(Window::getWidth()) * 2.0 - 1.0,
+										 .y = -(screenY / double(Window::getHeight()) * 2.0 - 1.0)};
 		break;
+	}
+	case Event::Type::mouseButton: {
+		const auto& mouseButtonEvt = static_cast<MouseButtonEvent&>(evt);
+		if (mouseButtonEvt.action == MouseAction::pressed)
+			testStickFigure.position = mouseWorldPosition;
 	}
 	default: break;
 	}
