@@ -4,7 +4,6 @@
 #include "window.h"
 
 #include "renderer/renderer.h"
-#include "renderer/shader.h"
 
 #include "events/mouse_event.h"
 #include "events/window_size_event.h"
@@ -17,12 +16,17 @@
 
 bool App::running = false;
 
+Shader App::lineShader;
+
 App::ExitCode App::init() {
 	profileTraceFunc();
 
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
 	Renderer::setViewport({.size = Window::size()});
+
+	lineShader = {"line"};
+	lineShader.bind();
 
 	Sleeper::init();
 
@@ -34,9 +38,6 @@ App::ExitCode App::run() {
 
 	running = true;
 	{
-		Shader shader{"line"};
-		shader.bind();
-
 		Game::init();
 
 		using namespace std::chrono;

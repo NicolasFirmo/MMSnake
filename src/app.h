@@ -2,6 +2,8 @@
 
 #include "events/event.h"
 
+#include "renderer/shader.h"
+
 class App {
 public:
 	enum class ExitCode {
@@ -17,4 +19,6 @@ public:
 
 private:
 	static bool running;
+
+	static Shader lineShader;
 };
