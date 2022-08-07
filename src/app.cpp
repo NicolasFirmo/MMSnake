@@ -28,6 +28,8 @@ App::ExitCode App::init() {
 	lineShader = {"line"};
 	lineShader.bind();
 
+	resizeView(Window::size());
+
 	Sleeper::init();
 
 	return ExitCode::success;
@@ -91,7 +93,7 @@ void App::onEvent(Event&& evt) {
 
 	switch (type) {
 	case Event::Type::windowSize: {
-		Renderer::setViewport({.size = Window::size()});
+		resizeView(static_cast<WindowSizeEvent&>(evt).size);
 		break;
 	}
 	case Event::Type::mouseButton: {
@@ -104,4 +106,11 @@ void App::onEvent(Event&& evt) {
 	}
 
 	Game::onEvent(evt);
+}
+
+void App::resizeView(const Size2<GLsizei>& size) {
+	Renderer::setViewport({.size = size});
+	const auto aspectRatio = GLfloat(size.w) / size.h;
+	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
+	lineShader.setUniformMatrix4("u_ViewProjection", projection);
 }

@@ -59,7 +59,8 @@ void Game::onEvent(Event& evt) {
 	case Event::Type::mouseMove: {
 		const auto& mouseMoveEvt	  = static_cast<MouseMoveEvent&>(evt);
 		const auto [screenX, screenY] = mouseMoveEvt.pos;
-		mouseWorldPosition			  = {.x = screenX / double(Window::width()) * 2.0 - 1.0,
+		mouseWorldPosition			  = {.x = Window::aspectRatio() *
+											  (screenX / double(Window::width()) * 2.0 - 1.0),
 										 .y = -(screenY / double(Window::height()) * 2.0 - 1.0)};
 		break;
 	}
