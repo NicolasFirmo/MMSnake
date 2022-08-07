@@ -41,6 +41,9 @@ struct Matrix4 {
 			 }
 		 };
 	}
+
+	[[nodiscard]] constexpr const T* data() const { return &r[0].c[0]; }
+
 	[[nodiscard]] constexpr Matrix4 operator+(const Matrix4& other) const {
 		Matrix4 res;
 		for (size_t i = 0; i < 4; i++)
