@@ -17,6 +17,7 @@ public:
 	[[nodiscard]] static const auto& size() { return size_; }
 	[[nodiscard]] static auto width() { return size_.w; }
 	[[nodiscard]] static auto height() { return size_.h; }
+	[[nodiscard]] static auto aspectRatio() { return double(size_.w) / size_.h; }
 
 	static void setVsync(bool enabled);
 	[[nodiscard]] static bool isVsyncOn() { return vsync_ != 0; }
