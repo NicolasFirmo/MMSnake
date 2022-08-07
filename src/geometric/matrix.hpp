@@ -2,29 +2,34 @@
 
 template <typename T>
 struct Matrix4 {
-	T e[4 * 4]{0};
+	struct Row {
+		T c[4];
+	};
+
+	Row r[4];
 
 	[[nodiscard]] constexpr Matrix4 operator+(const Matrix4& other) const {
 		Matrix4 res;
-		for (size_t i = 0; i < std::size(e); i++) res[i] = e[i] + other[i];
+		for (size_t i = 0; i < 4; i++)
+			for (size_t j = 0; j < 4; j++) res.r[i].c[j] = r[i].c[j] + other.r[i].c[j];
 		return res;
 	}
 
 	[[nodiscard]] constexpr Matrix4 operator-(const Matrix4& other) const {
 		Matrix4 res;
-		for (size_t i = 0; i < std::size(e); i++) res[i] = e[i] - other[i];
+		for (size_t i = 0; i < 4; i++)
+			for (size_t j = 0; j < 4; j++) res.r[i].c[j] = r[i].c[j] - other.r[i].c[j];
 		return res;
 	}
 	[[nodiscard]] constexpr Matrix4 operator*(const T& value) const {
 		Matrix4 res;
-		for (size_t i = 0; i < std::size(e); i++) res[i] = e[i] * value;
+		for (size_t i = 0; i < 4; i++)
+			for (size_t j = 0; j < 4; j++) res.r[i].c[j] = r[i].c[j] * value;
 		return res;
 	}
 };
 
 template <typename T>
 constexpr Matrix4<T> operator*(const T& value, const Matrix4<T>& matrix) {
-	Matrix4<T> res;
-	for (size_t i = 0; i < std::size(matrix.e); i++) res[i] = matrix.e[i] * value;
-	return res;
+	return matrix * value;
 }
