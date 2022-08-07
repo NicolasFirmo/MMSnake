@@ -1,5 +1,6 @@
 #include "shader.h"
 
+#include "utility/log.hpp"
 #include "utility/tracer.h"
 
 Shader::Shader(const std::string& name) {
@@ -98,4 +99,10 @@ GLuint Shader::compileShader(GLenum type, const GLchar* source) {
 
 void Shader::bind() {
 	glUseProgram(id_);
+}
+
+void Shader::setUniformMatrix4(const std::string_view& name, const Matrix4<GLfloat>& matrix) {
+	const auto location = glGetUniformLocation(id_, name.data());
+	debugLog("Uniform {} {}!\n", name, location == -1 ? "not found" : "found");
+	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.data());
 }

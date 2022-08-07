@@ -1,4 +1,7 @@
 #pragma once
+
+#include "geometric/matrix.hpp"
+
 class Shader {
 public:
 	struct ShaderType {
@@ -22,6 +25,8 @@ public:
 	Shader& operator=(Shader&& other);
 
 	void bind();
+
+	void setUniformMatrix4(const std::string_view& name, const Matrix4<GLfloat>& matrix);
 
 private:
 	static GLuint compileShader(GLenum type, const GLchar* source);
