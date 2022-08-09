@@ -1,5 +1,7 @@
 #pragma once
 
+#include "concepts.hpp"
+
 #if defined(_MSC_VER)
 #pragma warning(push)
 #pragma warning(disable : 4100)
@@ -14,11 +16,6 @@ constexpr void debugLog(const std::string_view& fmt, T&&... args) {
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
-
-template <class T>
-concept Stringable = requires(T a) {
-	{ a.toString() } -> std::convertible_to<std::string>;
-};
 
 template <Stringable T>
 struct fmt::formatter<T> : fmt::formatter<std::string> {
