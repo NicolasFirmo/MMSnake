@@ -30,7 +30,16 @@ public:
 
 private:
 	static GLuint compileShader(GLenum type, const GLchar* source);
-	static std::string loadShaderSource(std::string_view name, std::string_view extension);
+	std::string loadShaderSource(std::string_view name, std::string_view extension);
+	std::string parseSource(std::ifstream& file);
+
+	void loadUniformLocations();
 
 	GLuint id_{0};
+
+	struct Uniform {
+		std::string name;
+		GLint location;
+	};
+	std::vector<Uniform> uniforms_;
 };
