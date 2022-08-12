@@ -56,5 +56,5 @@ if(MSVC)
 	set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${ExecutableName})
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "(Clang|GNU)")
 	target_compile_options(${ExecutableName} PRIVATE
-	"$<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra;-Wpedantic;-Wconversion;-fno-exceptions;-fno-rtti;$<$<CONFIG:RELEASE>:-O3;-ffast-math>>")
+	"$<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra;-Wpedantic;-Wconversion;-fno-rtti;$<$<CONFIG:RELEASE>:-O3;-ffast-math>>")
 endif()
