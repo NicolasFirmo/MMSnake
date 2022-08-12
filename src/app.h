@@ -2,6 +2,10 @@
 
 #include "events/event.h"
 
+#include "renderer/shader.h"
+
+#include "geometric/size.hpp"
+
 class App {
 public:
 	enum class ExitCode {
@@ -13,8 +17,12 @@ public:
 	static ExitCode run();
 	static void shutdown();
 
-	static void onEvent(Event &&evt);
+	static void onEvent(Event&& evt);
+
+	static void resizeView(const Size2<GLsizei>& size);
 
 private:
 	static bool running;
+
+	static Shader lineShader;
 };

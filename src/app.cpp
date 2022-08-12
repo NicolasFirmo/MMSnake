@@ -4,7 +4,6 @@
 #include "window.h"
 
 #include "renderer/renderer.h"
-#include "renderer/shader.h"
 
 #include "events/mouse_event.h"
 #include "events/window_size_event.h"
@@ -17,15 +16,19 @@
 
 bool App::running = false;
 
+Shader App::lineShader;
+
 App::ExitCode App::init() {
 	profileTraceFunc();
 
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
-	Renderer::setViewport({
-		.pos = {.x = 0, .y = 0},
-			 .size = Window::getSize()
-	  });
+	Renderer::setViewport({.size = Window::size()});
+
+	lineShader = {"line"};
+	lineShader.bind();
+
+	resizeView(Window::size());
 
 	Sleeper::init();
 
@@ -37,9 +40,6 @@ App::ExitCode App::run() {
 
 	running = true;
 	{
-		Shader shader{"line"};
-		shader.bind();
-
 		Game::init();
 
 		using namespace std::chrono;
@@ -62,7 +62,7 @@ App::ExitCode App::run() {
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-				GLFWwindow *backup_current_context = glfwGetCurrentContext();
+				GLFWwindow* backup_current_context = glfwGetCurrentContext();
 				ImGui::UpdatePlatformWindows();
 				ImGui::RenderPlatformWindowsDefault();
 				glfwMakeContextCurrent(backup_current_context);
@@ -86,37 +86,31 @@ void App::shutdown() {
 	Window::shutdown();
 }
 
-static constexpr auto eventLogColor = fmt::fg(fmt::color::light_green);
-void App::onEvent(Event &&evt) {
+void App::onEvent(Event&& evt) {
+	debugLog("app: {}\n", evt);
+
 	auto type = evt.getType();
 
 	switch (type) {
 	case Event::Type::windowSize: {
-		auto &[width, height] = static_cast<WindowSizeEvent &>(evt).size;
-		fmt::print(eventLogColor, "Window size: {}x{}\n", width, height);
+		resizeView(static_cast<WindowSizeEvent&>(evt).size);
 		break;
 	}
 	case Event::Type::mouseButton: {
-		auto &[button, action, mods] = static_cast<MouseButtonEvent &>(evt);
-		fmt::print(eventLogColor, "{} mouse button {}{}{}{}{}\n",
-				   button == MouseButton::left	 ? "Left" :
-				   button == MouseButton::right	 ? "Right" :
-				   button == MouseButton::middle ? "Middle" :
-												   "Unknown",
-				   action == MouseAction::pressed ? "pressed" : "released",
-				   mods != MouseMods::none ? " while holding " : "",
-				   mods & MouseMods::shift && mods & MouseMods::ctrlAlt ? "shift+" :
-				   mods & MouseMods::shift								? "shift" :
-																		  "",
-				   mods & MouseMods::ctrl && mods & MouseMods::alt ? "ctrl+" :
-				   mods & MouseMods::ctrl						   ? "ctrl" :
-																	 "",
-				   mods & MouseMods::alt ? "alt" : "");
 		break;
 	}
-	default:
+	case Event::Type::mouseMove: {
 		break;
+	}
+	default: break;
 	}
 
 	Game::onEvent(evt);
+}
+
+void App::resizeView(const Size2<GLsizei>& size) {
+	Renderer::setViewport({.size = size});
+	const auto aspectRatio = GLfloat(size.w) / size.h;
+	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
+	lineShader.setUniformMatrix4("u_ViewProjection", projection);
 }

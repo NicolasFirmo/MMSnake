@@ -10,17 +10,17 @@
 
 #include "core/assert.h"
 
-GLFWwindow *Window::handle_ = nullptr;
+GLFWwindow* Window::handle_ = nullptr;
 
 Size2<GLsizei> Window::size_{};
 int Window::vsync_{};
 
-void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyncEnabled) {
+void Window::init(const char* title, const Size2<GLsizei>& size, const bool vsyncEnabled) {
 	profileTraceFunc();
 
 	size_ = size;
 
-	glfwSetErrorCallback([](int error, const char *description) {
+	glfwSetErrorCallback([](int error, const char* description) {
 		fmt::print(stderr, "GLFW error ({}): {}", error, description);
 	});
 
@@ -43,9 +43,9 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 				"Failed to initialize OpenGL context");
 
 	debugLog("OpenGL info:\n");
-	debugLog("\tVendor: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VENDOR)));
-	debugLog("\tRenderer: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
-	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
+	debugLog("\tVendor: {:s}\n", reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+	debugLog("\tRenderer: {:s}\n", reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+	debugLog("\tVersion: {:s}\n", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 
 	glfwSetMouseButtonCallback(handle_, mouseButtonCallback);
 	glfwSetCursorPosCallback(handle_, mouseMoveCallback);
@@ -53,7 +53,7 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	auto &io = ImGui::GetIO();
+	auto& io = ImGui::GetIO();
 	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -61,22 +61,6 @@ void Window::init(const char *title, const Size2<GLsizei> &size, const bool vsyn
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(handle_, true);
 	ImGui_ImplOpenGL3_Init("#version 460");
-}
-
-void Window::mouseButtonCallback(GLFWwindow * /*window*/, int button, int action, int mods) {
-	App::onEvent(MouseButtonEvent{MouseButton(button), MouseAction(action), MouseMods(mods)});
-}
-
-void Window::mouseMoveCallback(GLFWwindow * /*window*/, double xpos, double ypos) {
-	App::onEvent(MouseMoveEvent{
-		{.x = xpos, .y = ypos}
-	  });
-}
-
-void Window::windowSizeCallback(GLFWwindow * /*window*/, int width, int height) {
-	App::onEvent(WindowSizeEvent{
-		{.w = width, .h = height}
-	 });
 }
 
 void Window::shutdown() {
@@ -87,6 +71,12 @@ void Window::shutdown() {
 
 bool Window::closing() {
 	return glfwWindowShouldClose(handle_) == 0 ? false : true;
+}
+
+void Window::pollEvents() {
+	profileTraceFunc();
+
+	glfwPollEvents();
 }
 
 void Window::showFrame() {
@@ -100,12 +90,23 @@ void Window::setVsync(bool enabled) {
 	glfwSwapInterval(vsync_);
 }
 
-void Window::pollEvents() {
-	profileTraceFunc();
-
-	glfwPollEvents();
+void Window::setTitle(const char* title) {
+	glfwSetWindowTitle(handle_, title);
 }
 
-void Window::setTitle(const char *title) {
-	glfwSetWindowTitle(handle_, title);
+void Window::mouseButtonCallback(GLFWwindow* /*window*/, int button, int action, int mods) {
+	App::onEvent(MouseButtonEvent{MouseButton(button), MouseAction(action), MouseMods(mods)});
+}
+
+void Window::mouseMoveCallback(GLFWwindow* /*window*/, double xpos, double ypos) {
+	App::onEvent(MouseMoveEvent{
+		{.x = xpos, .y = ypos}
+	  });
+}
+
+void Window::windowSizeCallback(GLFWwindow* /*window*/, int width, int height) {
+	size_ = {.w = width, .h = height};
+	App::onEvent(WindowSizeEvent{
+		{.w = width, .h = height}
+	 });
 }

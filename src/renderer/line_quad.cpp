@@ -2,11 +2,11 @@
 
 #include "utility/tracer.h"
 
-LineQuad::LineQuad(const Point2<GLfloat> &pt0, const Point2<GLfloat> &pt1,
+LineQuad::LineQuad(const Point2<GLfloat>& pt0, const Point2<GLfloat>& pt1,
 				   const GLfloat thickness) {
 	profileTraceFunc();
 
-	const auto rotate = []<typename T>(const Point2<T> &point, T angle) -> Point2<T> {
+	const auto rotate = []<typename T>(const Point2<T>& point, T angle) -> Point2<T> {
 		return {.x = point.x * std::cos(angle) - point.y * std::sin(angle),
 				.y = point.x * std::sin(angle) + point.y * std::cos(angle)};
 	};

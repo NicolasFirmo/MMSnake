@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utility/point.hpp"
+#include "geometric/point.hpp"
 
 static constexpr auto pi = std::numbers::pi_v<GLfloat>;
 

@@ -9,13 +9,16 @@
 #include "renderer/renderer.h"
 
 #include "utility/log.hpp"
-#include "utility/point.hpp"
 #include "utility/timer.h"
 #include "utility/tracer.h"
+
+#include "geometric/point.hpp"
 
 #include "core/sleeper.h"
 
 bool Game::running = false;
+
+static Point2<double> mouseWorldPosition;
 
 static StickFigure testStickFigure;
 
@@ -35,9 +38,9 @@ void Game::run() {
 	while (running) {
 		profileTraceScope("game run loop");
 
-		const auto deltaT = timer.getSecondsElapsed();
+		// const auto deltaT = timer.getSecondsElapsed();
 		timer.startCounting();
-		fmt::print("Game loop period: {}\n", deltaT);
+		// fmt::print("Game loop period: {}\n", deltaT);
 
 		sleeper.preciseSync(2500, timer);
 	}
@@ -49,13 +52,22 @@ void Game::shutdown() {
 	running = false;
 }
 
-void Game::onEvent(Event &evt) {
+void Game::onEvent(Event& evt) {
 	auto type = evt.getType();
 
 	switch (type) {
 	case Event::Type::mouseMove: {
-		const auto [screenX, screenY] = static_cast<MouseMoveEvent &>(evt).pos;
+		const auto& mouseMoveEvt	  = static_cast<MouseMoveEvent&>(evt);
+		const auto [screenX, screenY] = mouseMoveEvt.pos;
+		mouseWorldPosition			  = {.x = Window::aspectRatio() *
+											  (screenX / double(Window::width()) * 2.0 - 1.0),
+										 .y = -(screenY / double(Window::height()) * 2.0 - 1.0)};
 		break;
+	}
+	case Event::Type::mouseButton: {
+		const auto& mouseButtonEvt = static_cast<MouseButtonEvent&>(evt);
+		if (mouseButtonEvt.action == MouseAction::pressed)
+			testStickFigure.position = mouseWorldPosition;
 	}
 	default: break;
 	}
@@ -85,47 +97,40 @@ void Game::render() {
 	Renderer::endBatch();
 }
 
-void Game::drawStickFigure(const StickFigure &stickFigure) {
+void Game::drawStickFigure(const StickFigure& stickFigure) {
 	profileTraceFunc();
 
 	// torso
-	const auto &hip				= stickFigure.position;
-	const auto &lowerTorsoAngle = stickFigure.joints.torsoHip;
-	const auto spine =
-		hip + Point2<GLfloat>::fromPolar(stickFigure.lenghts.torsoLower, lowerTorsoAngle);
+	const auto& hip				= stickFigure.position;
+	const auto& lowerTorsoAngle = stickFigure.joints.torsoHip;
+	const auto spine		   = hip + Point2Polar{stickFigure.lenghts.torsoLower, lowerTorsoAngle};
 	const auto upperTorsoAngle = lowerTorsoAngle + stickFigure.joints.torsoSpine;
-	const auto shoulders =
-		spine + Point2<GLfloat>::fromPolar(stickFigure.lenghts.torsoUpper, upperTorsoAngle);
+	const auto shoulders = spine + Point2Polar{stickFigure.lenghts.torsoUpper, upperTorsoAngle};
 
 	// arms
 	const auto leftUpperArmAngle = upperTorsoAngle + stickFigure.joints.leftArmShoulder;
-	const auto leftElbow =
-		shoulders + Point2<GLfloat>::fromPolar(stickFigure.lenghts.armUpper, leftUpperArmAngle);
+	const auto leftElbow = shoulders + Point2Polar{stickFigure.lenghts.armUpper, leftUpperArmAngle};
 	const auto leftLowerArmAngle = leftUpperArmAngle + stickFigure.joints.leftArmElbow;
-	const auto leftHand =
-		leftElbow + Point2<GLfloat>::fromPolar(stickFigure.lenghts.armLower, leftLowerArmAngle);
+	const auto leftHand = leftElbow + Point2Polar{stickFigure.lenghts.armLower, leftLowerArmAngle};
 
 	const auto rightUpperArmAngle = upperTorsoAngle + stickFigure.joints.rightArmShoulder;
 	const auto rightElbow =
-		shoulders + Point2<GLfloat>::fromPolar(stickFigure.lenghts.armUpper, rightUpperArmAngle);
+		shoulders + Point2Polar{stickFigure.lenghts.armUpper, rightUpperArmAngle};
 	const auto rightLowerArmAngle = rightUpperArmAngle + stickFigure.joints.rightArmElbow;
 	const auto rightHand =
-		rightElbow + Point2<GLfloat>::fromPolar(stickFigure.lenghts.armLower, rightLowerArmAngle);
+		rightElbow + Point2Polar{stickFigure.lenghts.armLower, rightLowerArmAngle};
 
 	// legs
 	const auto leftUpperLegAngle = lowerTorsoAngle + stickFigure.joints.leftLegHip;
-	const auto leftKnee =
-		hip + Point2<GLfloat>::fromPolar(stickFigure.lenghts.legUpper, leftUpperLegAngle);
+	const auto leftKnee = hip + Point2Polar{stickFigure.lenghts.legUpper, leftUpperLegAngle};
 	const auto leftLowerLegAngle = leftUpperLegAngle + stickFigure.joints.leftLegKnee;
-	const auto leftFoot =
-		leftKnee + Point2<GLfloat>::fromPolar(stickFigure.lenghts.legLower, leftLowerLegAngle);
+	const auto leftFoot = leftKnee + Point2Polar{stickFigure.lenghts.legLower, leftLowerLegAngle};
 
 	const auto rightUpperLegAngle = lowerTorsoAngle + stickFigure.joints.rightLegHip;
-	const auto rightKnee =
-		hip + Point2<GLfloat>::fromPolar(stickFigure.lenghts.legUpper, rightUpperLegAngle);
+	const auto rightKnee = hip + Point2Polar{stickFigure.lenghts.legUpper, rightUpperLegAngle};
 	const auto rightLowerLegAngle = rightUpperLegAngle + stickFigure.joints.rightLegKnee;
 	const auto rightFoot =
-		rightKnee + Point2<GLfloat>::fromPolar(stickFigure.lenghts.legLower, rightLowerLegAngle);
+		rightKnee + Point2Polar{stickFigure.lenghts.legLower, rightLowerLegAngle};
 
 	static constexpr GLfloat thickness = 0.01F;
 	Renderer::drawLine(hip, spine, thickness);

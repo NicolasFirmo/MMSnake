@@ -5,7 +5,7 @@
 std::ofstream Tracer::file;
 std::mutex Tracer::fileMutex;
 
-Tracer::Timer::Timer(const char *location) : location_(location), startTime_(clock::now()) {}
+Tracer::Timer::Timer(const char* location) : location_(location), startTime_(clock::now()) {}
 
 Tracer::Timer::~Timer() {
 	auto elapsedTime =
@@ -29,7 +29,7 @@ Tracer::Timer::~Timer() {
 	file.flush();
 }
 
-void Tracer::begin(const std::string &filepath) {
+void Tracer::begin(const std::string& filepath) {
 	std::lock_guard lock{fileMutex};
 
 	debugAssert(!file.is_open(),
@@ -51,6 +51,6 @@ void Tracer::end() {
 	file.close();
 }
 
-Tracer::Timer Tracer::trace(const char *location) {
+Tracer::Timer Tracer::trace(const char* location) {
 	return location;
 }

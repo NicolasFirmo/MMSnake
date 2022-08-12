@@ -7,8 +7,10 @@ layout(location = 2) in float localLength;
 out vec2 v_LocalPosition;
 out float v_LocalLength;
 
+uniform mat4 u_ViewProjection;
+
 void main() {
-	gl_Position = position;
+	gl_Position = u_ViewProjection * position;
 	v_LocalPosition = localPosition;
 	v_LocalLength = localLength;
 }

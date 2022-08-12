@@ -2,7 +2,7 @@
 
 #include "event.h"
 
-#include "utility/point.hpp"
+#include "geometric/point.hpp"
 
 enum MouseButton {
 	left   = 0,
@@ -32,7 +32,8 @@ struct MouseButtonEvent : public Event {
 		  action(action),
 		  mods(mods) {}
 
-	[[nodiscard]] Type getType() const override { return Type::mouseButton; };
+	[[nodiscard]] constexpr Type getType() const override { return Type::mouseButton; };
+	[[nodiscard]] std::string toString() const override;
 
 	MouseButton button;
 	MouseAction action;
@@ -42,7 +43,8 @@ struct MouseButtonEvent : public Event {
 struct MouseMoveEvent : public Event {
 	MouseMoveEvent(Point2<double> pos) : pos(pos) {}
 
-	[[nodiscard]] Type getType() const override { return Type::mouseMove; };
+	[[nodiscard]] constexpr Type getType() const override { return Type::mouseMove; };
+	[[nodiscard]] std::string toString() const override;
 
 	Point2<double> pos;
 };
