@@ -33,19 +33,19 @@ void Game::init() {
 
 	lineShader = {"line"};
 
+	lineShader.bind();
+
+	const auto [w, h] = Window::size();
+	const auto aspectRatio = GLfloat(w) / GLfloat(h);
+	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
+	lineShader.setUniformMatrix4("u_ViewProjection", projection);
+
 	std::thread gameLoop{run};
 	gameLoop.detach();
 }
 
 void Game::run() {
 	profileTraceFunc();
-
-	lineShader.bind();
-
-	const auto [w, h]	   = Window::size();
-	const auto aspectRatio = GLfloat(w) / GLfloat(h);
-	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
-	lineShader.setUniformMatrix4("u_ViewProjection", projection);
 
 	Timer timer;
 	Sleeper sleeper;
