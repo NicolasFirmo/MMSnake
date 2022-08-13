@@ -16,17 +16,12 @@
 
 bool App::running = false;
 
-Shader App::lineShader;
-
 App::ExitCode App::init() {
 	profileTraceFunc();
 
 	Window::init("StickTheStick", {.w = 600, .h = 480});
 	Renderer::init();
 	Renderer::setViewport({.size = Window::size()});
-
-	lineShader = {"line"};
-	lineShader.bind();
 
 	resizeView(Window::size());
 
@@ -110,7 +105,4 @@ void App::onEvent(Event&& evt) {
 
 void App::resizeView(const Size2<GLsizei>& size) {
 	Renderer::setViewport({.size = size});
-	const auto aspectRatio = GLfloat(size.w) / size.h;
-	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
-	lineShader.setUniformMatrix4("u_ViewProjection", projection);
 }

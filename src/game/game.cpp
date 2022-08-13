@@ -5,6 +5,7 @@
 #include "window.h"
 
 #include "events/mouse_event.h"
+#include "events/window_size_event.h"
 
 #include "renderer/renderer.h"
 
@@ -12,11 +13,14 @@
 #include "utility/timer.h"
 #include "utility/tracer.h"
 
+#include "geometric/matrix.hpp"
 #include "geometric/point.hpp"
 
 #include "core/sleeper.h"
 
 bool Game::running = false;
+
+Shader Game::lineShader{};
 
 static Point2<double> mouseWorldPosition;
 
@@ -26,12 +30,22 @@ void Game::init() {
 	profileTraceFunc();
 
 	running = true;
+
+	lineShader = {"line"};
+
 	std::thread gameLoop{run};
 	gameLoop.detach();
 }
 
 void Game::run() {
 	profileTraceFunc();
+
+	lineShader.bind();
+
+	const auto [w, h]	   = Window::size();
+	const auto aspectRatio = GLfloat(w) / GLfloat(h);
+	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
+	lineShader.setUniformMatrix4("u_ViewProjection", projection);
 
 	Timer timer;
 	Sleeper sleeper;
@@ -68,6 +82,15 @@ void Game::onEvent(Event& evt) {
 		const auto& mouseButtonEvt = static_cast<MouseButtonEvent&>(evt);
 		if (mouseButtonEvt.action == MouseAction::pressed)
 			testStickFigure.position = mouseWorldPosition;
+		break;
+	}
+	case Event::Type::windowSize: {
+		const auto [w, h]	   = static_cast<WindowSizeEvent&>(evt).size;
+		const auto aspectRatio = GLfloat(w) / GLfloat(h);
+		const auto projection =
+			Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
+		lineShader.setUniformMatrix4("u_ViewProjection", projection);
+		break;
 	}
 	default: break;
 	}

@@ -2,8 +2,6 @@
 
 #include "events/event.h"
 
-#include "renderer/shader.h"
-
 #include "geometric/size.hpp"
 
 class App {
@@ -23,6 +21,4 @@ public:
 
 private:
 	static bool running;
-
-	static Shader lineShader;
 };

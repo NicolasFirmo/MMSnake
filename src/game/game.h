@@ -4,6 +4,8 @@
 
 #include "events/event.h"
 
+#include "renderer/shader.h"
+
 #include "core/sleeper.h"
 
 class Game {
@@ -25,4 +27,6 @@ private:
 	static void run();
 
 	static bool running;
+
+	static Shader lineShader;
 };
