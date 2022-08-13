@@ -14,9 +14,8 @@ Shader::Shader(const std::string& name) {
 
 	auto curerntShaderId = shaderIds.begin();
 	for (auto&& [type, extension] : shaderTypes) {
-		auto shaderSrc = loadShaderSource(name, extension);
-		if (shaderSrc.empty())
-			continue;
+		auto shaderFile = loadShaderFile(name, extension);
+		auto shaderSrc	= parseSource(shaderFile);
 
 		*curerntShaderId = compileShader(type, shaderSrc.c_str());
 
@@ -56,7 +55,7 @@ Shader& Shader::operator=(Shader&& other) {
 	return *this;
 }
 
-std::string Shader::loadShaderSource(std::string_view name, std::string_view extension) {
+std::ifstream Shader::loadShaderFile(std::string_view name, std::string_view extension) {
 	profileTraceFunc();
 
 	using namespace std::string_literals;
@@ -65,12 +64,11 @@ std::string Shader::loadShaderSource(std::string_view name, std::string_view ext
 
 	std::ifstream file{fileName};
 
-	if (!file.is_open()) {
-		fmt::print(stderr, "{}.{}.glsl not found!\n", name, extension);
-		return "";
-	}
+	debugAssert(
+		file.is_open(),
+		fmt::format("{0}.{1}.glsl not found in assets/shaders/{0}/ folder!\n", name, extension));
 
-	return parseSource(file);
+	return file;
 }
 
 std::string Shader::parseSource(std::ifstream& file) {
@@ -106,17 +104,21 @@ GLuint Shader::compileShader(GLenum type, const GLchar* source) {
 	glShaderSource(shaderId, 1, &source, nullptr);
 	glCompileShader(shaderId);
 
-	auto success = GL_TRUE;
-	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		GLchar message[1024];
-		glGetShaderInfoLog(shaderId, sizeof(message), nullptr, message);
-		fmt::print(stderr, "Failed to compile {}shader: {}",
-				   type == GL_VERTEX_SHADER	  ? "vertex " :
-				   type == GL_FRAGMENT_SHADER ? "fragment " :
-												"",
-				   message);
-		glDeleteShader(shaderId);
+	if constexpr (DEBUG) {
+		auto success = GL_TRUE;
+		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+		if (!success) {
+			GLchar message[1024];
+			glGetShaderInfoLog(shaderId, sizeof(message), nullptr, message);
+			fmt::print(stderr, "Failed to compile {}shader: {}",
+					   type == GL_VERTEX_SHADER	  ? "vertex " :
+					   type == GL_FRAGMENT_SHADER ? "fragment " :
+													"",
+					   message);
+			debugBreak();
+			glDeleteShader(shaderId);
+			return 0;
+		}
 	}
 
 	return shaderId;

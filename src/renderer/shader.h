@@ -5,8 +5,8 @@
 class Shader {
 public:
 	struct ShaderType {
-		GLenum type;
-		const char* extension;
+		GLenum type{};
+		const char* extension{};
 	};
 
 	static constexpr std::array<ShaderType, 2> shaderTypes = {
@@ -15,7 +15,7 @@ public:
 	};
 
 	Shader() = default;
-	Shader(const std::string& name);
+	explicit Shader(const std::string& name);
 
 	~Shader();
 
@@ -30,7 +30,7 @@ public:
 
 private:
 	static GLuint compileShader(GLenum type, const GLchar* source);
-	std::string loadShaderSource(std::string_view name, std::string_view extension);
+	std::ifstream loadShaderFile(std::string_view name, std::string_view extension);
 	std::string parseSource(std::ifstream& file);
 
 	void loadUniformLocations();
@@ -38,8 +38,8 @@ private:
 	GLuint id_{0};
 
 	struct Uniform {
-		std::string name;
-		GLint location;
+		std::string name{};
+		GLint location{};
 	};
-	std::vector<Uniform> uniforms_;
+	std::vector<Uniform> uniforms_{};
 };
