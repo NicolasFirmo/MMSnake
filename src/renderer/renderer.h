@@ -15,8 +15,8 @@ public:
 	static void setDrawColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 	static void clear();
 
-	static void beginBatch();
-	static void endBatch();
+	static void beginScene();
+	static void endScene();
 
 	static void drawLine(const Point2<GLfloat>& point0, const Point2<GLfloat>& point1,
 						 GLfloat thickness);

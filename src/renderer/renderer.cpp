@@ -80,12 +80,12 @@ void Renderer::clear() {
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::beginBatch() {
+void Renderer::beginScene() {
 	currentLineQuad = lineQuadBuffer;
 	indexCount		= 0;
 }
 
-void Renderer::endBatch() {
+void Renderer::endScene() {
 	profileTraceFunc();
 
 	GLsizeiptr size = (GLubyte*)currentLineQuad - (GLubyte*)lineQuadBuffer;
@@ -103,7 +103,7 @@ void Renderer::drawLine(const Point2<GLfloat>& pt0, const Point2<GLfloat>& pt1, 
 	indexCount += indicesPerLineQuad;
 
 	if (indexCount >= indicesPerBatch) {
-		endBatch();
-		beginBatch();
+		endScene();
+		beginScene();
 	}
 }

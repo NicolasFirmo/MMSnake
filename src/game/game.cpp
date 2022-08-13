@@ -90,11 +90,11 @@ void Game::onImGui() {
 void Game::render() {
 	profileTraceFunc();
 
-	Renderer::beginBatch();
+	Renderer::beginScene();
 
 	drawStickFigure(testStickFigure);
 
-	Renderer::endBatch();
+	Renderer::endScene();
 }
 
 void Game::drawStickFigure(const StickFigure& stickFigure) {
