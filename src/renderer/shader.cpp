@@ -32,6 +32,7 @@ Shader::Shader(const std::string& name) {
 		if (shaderId != 0)
 			glDeleteShader(shaderId);
 
+	uniforms_.shrink_to_fit();
 	loadUniformLocations();
 }
 
