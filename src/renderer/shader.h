@@ -26,7 +26,7 @@ public:
 
 	void bind();
 
-	void setUniformMatrix4(const std::string_view& name, const Matrix4<GLfloat>& matrix);
+	void setUniformMatrix4(std::string_view name, const Matrix4<GLfloat>& matrix);
 
 private:
 	static GLuint compileShader(GLenum type, const GLchar* source);

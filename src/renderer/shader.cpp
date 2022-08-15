@@ -140,7 +140,7 @@ void Shader::loadUniformLocations() {
 	}
 }
 
-void Shader::setUniformMatrix4(const std::string_view& name, const Matrix4<GLfloat>& matrix) {
+void Shader::setUniformMatrix4(std::string_view name, const Matrix4<GLfloat>& matrix) {
 	auto uniformIterator =
 		std::find_if(std::execution::par_unseq, uniforms_.begin(), uniforms_.begin(),
 					 [name](const Uniform& uniform) { return uniform.name == name; });

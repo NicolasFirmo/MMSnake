@@ -8,7 +8,7 @@
 #endif
 
 template <typename... T>
-constexpr void debugLog(const std::string_view& fmt, T&&... args) {
+constexpr void debugLog(std::string_view fmt, T&&... args) {
 	if constexpr (DEBUG)
 		fmt::print(fmt::fg(fmt::color::green), fmt, std::forward<T>(args)...);
 }
