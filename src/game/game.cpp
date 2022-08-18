@@ -31,7 +31,7 @@ void Game::init() {
 
 	running = true;
 
-	lineShader = {"line"};
+	lineShader = Shader{"line"};
 
 	lineShader.bind();
 
