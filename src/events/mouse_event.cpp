@@ -7,12 +7,13 @@ std::string MouseButtonEvent::toString() const {
 					   button == MouseButton::middle ? "middle" :
 													   "unknown",
 					   action == MouseAction::pressed ? "pressed" : "released",
-					   mods & MouseMods::shift && mods & ~MouseMods::shift ? "shift+" :
-					   mods & MouseMods::shift							   ? "shift" :
-																			 "",
-					   mods & MouseMods::ctrl && mods & ~MouseMods::ctrl ? "ctrl+" :
-					   mods & MouseMods::ctrl							 ? "ctrl" :
-																		   "",
+					   mods == MouseMods::none								? "none" :
+					   mods & MouseMods::shift && mods & MouseMods::ctrlAlt ? "shift+" :
+					   mods & MouseMods::shift								? "shift" :
+																			  "",
+					   mods & MouseMods::ctrl && mods & MouseMods::alt ? "ctrl+" :
+					   mods & MouseMods::ctrl						   ? "ctrl" :
+																		 "",
 					   mods & MouseMods::alt ? "alt" : "");
 };
 
