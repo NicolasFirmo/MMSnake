@@ -38,15 +38,16 @@ void Renderer::init() {
 						  GL_FALSE, sizeof(LineQuad::Vertex),
 						  reinterpret_cast<void*>(offsetof(LineQuad::Vertex, modelLength)));
 
-	std::array<GLuint, indicesPerBatch> rectIndicies;
-	for (GLuint i = 0, offset = 0; i < rectIndicies.size(); i += indicesPerLineQuad, offset += 4) {
-		rectIndicies[i + 0] = 0 + offset;
-		rectIndicies[i + 1] = 1 + offset;
-		rectIndicies[i + 2] = 2 + offset;
+	std::vector<GLuint> rectIndicies;
+	rectIndicies.reserve(indicesPerBatch);
+	for (GLuint offset = 0; rectIndicies.size() < rectIndicies.capacity(); offset += 4) {
+		rectIndicies.emplace_back(0 + offset);
+		rectIndicies.emplace_back(1 + offset);
+		rectIndicies.emplace_back(2 + offset);
 
-		rectIndicies[i + 3] = 2 + offset;
-		rectIndicies[i + 4] = 3 + offset;
-		rectIndicies[i + 5] = 0 + offset;
+		rectIndicies.emplace_back(2 + offset);
+		rectIndicies.emplace_back(3 + offset);
+		rectIndicies.emplace_back(0 + offset);
 	}
 
 	glGenBuffers(1, &indexBufferId);
