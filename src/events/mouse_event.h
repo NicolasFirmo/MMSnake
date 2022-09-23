@@ -4,16 +4,9 @@
 
 #include "geometric/point.hpp"
 
-enum MouseButton {
-	left   = 0,
-	right  = 1,
-	middle = 2
-};
+enum MouseButton { left = 0, right = 1, middle = 2 };
 
-enum MouseAction {
-	released = 0,
-	pressed	 = 1
-};
+enum MouseAction { released = 0, pressed = 1 };
 
 enum MouseMods {
 	none		 = 0b000,

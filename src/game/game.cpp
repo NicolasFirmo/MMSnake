@@ -35,7 +35,7 @@ void Game::init() {
 
 	lineShader.bind();
 
-	const auto [w, h] = Window::size();
+	const auto [w, h]	   = Window::size();
 	const auto aspectRatio = GLfloat(w) / GLfloat(h);
 	const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
 	lineShader.setUniformMatrix4("u_ViewProjection", projection);
@@ -73,8 +73,8 @@ void Game::onEvent(Event& evt) {
 	case Event::Type::mouseMove: {
 		const auto& mouseMoveEvt	  = static_cast<MouseMoveEvent&>(evt);
 		const auto [screenX, screenY] = mouseMoveEvt.pos;
-		mouseWorldPosition			  = {.x = Window::aspectRatio() *
-											  (screenX / double(Window::width()) * 2.0 - 1.0),
+		mouseWorldPosition			  = {.x = Window::aspectRatio()
+											* (screenX / double(Window::width()) * 2.0 - 1.0),
 										 .y = -(screenY / double(Window::height()) * 2.0 - 1.0)};
 		break;
 	}
@@ -87,12 +87,11 @@ void Game::onEvent(Event& evt) {
 	case Event::Type::windowSize: {
 		const auto [w, h]	   = static_cast<WindowSizeEvent&>(evt).size;
 		const auto aspectRatio = GLfloat(w) / GLfloat(h);
-		const auto projection =
-			Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F, 1.0F);
+		const auto projection  = Matrix4<GLfloat>::orthographic(-aspectRatio, aspectRatio, -1.0F,
+																1.0F);
 		lineShader.setUniformMatrix4("u_ViewProjection", projection);
 		break;
 	}
-	default: break;
 	}
 }
 
@@ -137,11 +136,11 @@ void Game::drawStickFigure(const StickFigure& stickFigure) {
 	const auto leftHand = leftElbow + Point2Polar{stickFigure.lenghts.armLower, leftLowerArmAngle};
 
 	const auto rightUpperArmAngle = upperTorsoAngle + stickFigure.joints.rightArmShoulder;
-	const auto rightElbow =
-		shoulders + Point2Polar{stickFigure.lenghts.armUpper, rightUpperArmAngle};
+	const auto rightElbow		  = shoulders
+						  + Point2Polar{stickFigure.lenghts.armUpper, rightUpperArmAngle};
 	const auto rightLowerArmAngle = rightUpperArmAngle + stickFigure.joints.rightArmElbow;
-	const auto rightHand =
-		rightElbow + Point2Polar{stickFigure.lenghts.armLower, rightLowerArmAngle};
+	const auto rightHand		  = rightElbow
+						 + Point2Polar{stickFigure.lenghts.armLower, rightLowerArmAngle};
 
 	// legs
 	const auto leftUpperLegAngle = lowerTorsoAngle + stickFigure.joints.leftLegHip;
@@ -152,8 +151,8 @@ void Game::drawStickFigure(const StickFigure& stickFigure) {
 	const auto rightUpperLegAngle = lowerTorsoAngle + stickFigure.joints.rightLegHip;
 	const auto rightKnee = hip + Point2Polar{stickFigure.lenghts.legUpper, rightUpperLegAngle};
 	const auto rightLowerLegAngle = rightUpperLegAngle + stickFigure.joints.rightLegKnee;
-	const auto rightFoot =
-		rightKnee + Point2Polar{stickFigure.lenghts.legLower, rightLowerLegAngle};
+	const auto rightFoot		  = rightKnee
+						 + Point2Polar{stickFigure.lenghts.legLower, rightLowerLegAngle};
 
 	static constexpr GLfloat thickness = 0.01F;
 	Renderer::drawLine(hip, spine, thickness);

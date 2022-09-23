@@ -10,7 +10,7 @@ public:
 	};
 
 	static constexpr std::array<ShaderType, 2> shaderTypes = {
-		ShaderType{  GL_VERTEX_SHADER, "vert"},
+		ShaderType{GL_VERTEX_SHADER, "vert"},
 		ShaderType{GL_FRAGMENT_SHADER, "frag"},
 	};
 
@@ -41,5 +41,6 @@ private:
 		std::string name{};
 		GLint location{};
 	};
+
 	std::vector<Uniform> uniforms_{};
 };

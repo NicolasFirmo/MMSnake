@@ -1,6 +1,6 @@
 #pragma once
 
-template <typename T>
+template<typename T>
 struct Size2 {
 	T w{0}, h{0};
 
@@ -15,7 +15,7 @@ struct Size2 {
 	}
 };
 
-template <typename T>
+template<typename T>
 [[nodiscard]] constexpr Size2<T> operator*(const T& value, const Size2<T>& size) {
 	return {.w = size.w * value, .h = size.w * value};
 }

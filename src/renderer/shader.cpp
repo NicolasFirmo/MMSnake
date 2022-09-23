@@ -59,8 +59,8 @@ std::ifstream Shader::loadShaderFile(std::string_view name, std::string_view ext
 	profileTraceFunc();
 
 	using namespace std::string_literals;
-	std::string fileName =
-		"assets/shaders/"s + name.data() + '/' + name.data() + '.' + extension.data() + ".glsl";
+	std::string fileName = "assets/shaders/"s + name.data() + '/' + name.data() + '.'
+						 + extension.data() + ".glsl";
 
 	std::ifstream file{fileName};
 
@@ -80,14 +80,15 @@ std::string Shader::parseSource(std::ifstream& file) {
 		if (line.find("uniform") == std::string::npos)
 			continue;
 
-		const auto semicolonPos =
-			std::find_if(std::execution::par_unseq, line.rbegin(), line.rend(),
-						 [](const char c) { return c != ' ' && c != '\t'; });
+		const auto semicolonPos = std::find_if(std::execution::par_unseq, line.rbegin(),
+											   line.rend(),
+											   [](const char c) { return c != ' ' && c != '\t'; });
+
 		const auto uniformRBeginPos = semicolonPos + 1;
 
-		const auto uniformREndPos =
-			std::find_if(std::execution::par_unseq, uniformRBeginPos, line.rend(),
-						 [](const char c) { return c == ' ' || c == '\t'; });
+		const auto uniformREndPos = std::find_if(
+			std::execution::par_unseq, uniformRBeginPos, line.rend(),
+			[](const char c) { return c == ' ' || c == '\t'; });
 
 		uniforms_.emplace_back(std::string{uniformREndPos.base(), uniformRBeginPos.base()}, -1);
 
@@ -141,9 +142,10 @@ void Shader::loadUniformLocations() {
 }
 
 void Shader::setUniformMatrix4(std::string_view name, const Matrix4<GLfloat>& matrix) {
-	auto uniformIterator =
-		std::find_if(std::execution::par_unseq, uniforms_.begin(), uniforms_.begin(),
-					 [name](const Uniform& uniform) { return uniform.name == name; });
+	auto uniformIterator = std::find_if(
+		std::execution::par_unseq, uniforms_.begin(), uniforms_.begin(),
+		[name](const Uniform& uniform) { return uniform.name == name; });
+
 	debugAssert(uniformIterator != uniforms_.end(),
 				fmt::format("No uniform named {} found!", name));
 

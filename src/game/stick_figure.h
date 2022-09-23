@@ -20,6 +20,7 @@ public:
 		GLfloat rightLegHip{-pi * 3 / 4};
 		GLfloat rightLegKnee{0};
 	};
+
 	struct Lenghts {
 		GLfloat torsoLower{0.1F};
 		GLfloat torsoUpper{0.2F};

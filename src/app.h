@@ -6,10 +6,7 @@
 
 class App {
 public:
-	enum class ExitCode {
-		success = 0,
-		applicationError
-	};
+	enum class ExitCode { success = 0, applicationError };
 
 	static ExitCode init();
 	static ExitCode run();

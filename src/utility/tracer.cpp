@@ -8,11 +8,12 @@ std::mutex Tracer::fileMutex;
 Tracer::Timer::Timer(const char* location) : location_(location), startTime_(clock::now()) {}
 
 Tracer::Timer::~Timer() {
-	auto elapsedTime =
-		std::chrono::duration_cast<std::chrono::microseconds>(clock::now() - startTime_).count();
-	auto startTime =
-		std::chrono::duration_cast<std::chrono::microseconds>(startTime_.time_since_epoch())
-			.count();
+	auto elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(
+						   (clock::now() - startTime_))
+						   .count();
+	auto startTime = std::chrono::duration_cast<std::chrono::microseconds>(
+						 startTime_.time_since_epoch())
+						 .count();
 
 	std::lock_guard lock{fileMutex};
 

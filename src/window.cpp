@@ -99,14 +99,10 @@ void Window::mouseButtonCallback(GLFWwindow* /*window*/, int button, int action,
 }
 
 void Window::mouseMoveCallback(GLFWwindow* /*window*/, double xpos, double ypos) {
-	App::onEvent(MouseMoveEvent{
-		{.x = xpos, .y = ypos}
-	  });
+	App::onEvent(MouseMoveEvent{{.x = xpos, .y = ypos}});
 }
 
 void Window::windowSizeCallback(GLFWwindow* /*window*/, int width, int height) {
 	size_ = {.w = width, .h = height};
-	App::onEvent(WindowSizeEvent{
-		{.w = width, .h = height}
-	 });
+	App::onEvent(WindowSizeEvent{{.w = width, .h = height}});
 }

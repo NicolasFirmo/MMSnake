@@ -32,9 +32,9 @@ private:
 };
 
 #if true
-#define profileTraceFunc()			auto traceTimer = Tracer::trace(funcSign)
-#define profileTraceScope(location) auto traceTimer = Tracer::trace(location)
+	#define profileTraceFunc()			auto traceTimer = Tracer::trace(funcSign)
+	#define profileTraceScope(location) auto traceTimer = Tracer::trace(location)
 #else
-#define profileTraceFunc()
-#define profileTraceScope(location)
+	#define profileTraceFunc()
+	#define profileTraceScope(location)
 #endif
