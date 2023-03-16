@@ -5,7 +5,17 @@
 std::ofstream Tracer::file;
 std::mutex Tracer::fileMutex;
 
-Tracer::Timer::Timer(const char* location) : location_(location), startTime_(clock::now()) {}
+std::atomic<Tracer::Timer::clock::time_point> s_last_timer_start_time = Tracer::Timer::clock::now();
+
+Tracer::Timer::Timer(const char* location) : location_(location), startTime_(clock::now()) {
+	if (startTime_ >= s_last_timer_start_time.load(std::memory_order_acquire))
+		s_last_timer_start_time.store(startTime_, std::memory_order_release);
+
+	while (!s_last_timer_start_time.compare_exchange_weak(
+		startTime_, startTime_ + std::chrono::microseconds(1), std::memory_order_release,
+		std::memory_order_acquire))
+		;
+}
 
 Tracer::Timer::~Timer() {
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(
